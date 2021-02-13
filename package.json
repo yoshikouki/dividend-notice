@@ -9,7 +9,8 @@
     "test": "jest",
     "fmt": "prettier --write",
     "fmt:all": "prettier --write './**/*.ts' './**/*.tsx'",
-    "lint": "eslint ./**/*.ts ./**/*.tsx"
+    "lint": "eslint ./**/*.ts ./**/*.tsx",
+    "ci": "run-s fmt:all lint test"
   },
   "dependencies": {
     "@types/eslint": "^7.2.6",
