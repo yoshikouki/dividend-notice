@@ -1,5 +1,6 @@
-import { returnTrue } from './core'
+import {requestGet} from "./core";
 
-test('First Test', () => {
-  expect(returnTrue()).toBe(true)
+test('#requestGet', async () => {
+  const res = await requestGet()
+  expect(res).toBe([])
 })
