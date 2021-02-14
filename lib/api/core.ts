@@ -1,7 +1,8 @@
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse } from 'axios'
 
 export function requestGet(url = 'https://localhost', params = {}) {
-  return axios.get(url, {params: params})
+  return axios
+    .get(url, { params: params })
     .then((res: AxiosResponse) => {
       return res.data
     })
