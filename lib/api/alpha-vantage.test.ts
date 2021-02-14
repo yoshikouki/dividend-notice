@@ -4,7 +4,8 @@ import axios from "axios";
 test('#getTimeSeriesMonthlyAdjusted', async () => {
   jest.spyOn(axios, 'get').mockResolvedValue(fakeForGetTimeSeriesMonthlyAdjusted)
   const av = new AlphaVantage()
-  expect(await av.getTimeSeriesMonthlyAdjusted('IBM')).toBe([])
+  const res = await av.getTimeSeriesMonthlyAdjusted('IBM')
+  expect(res["Meta Data"]['1. Information']).toBe('Monthly Adjusted Prices and Volumes')
 })
 
 const fakeForGetTimeSeriesMonthlyAdjusted = {
