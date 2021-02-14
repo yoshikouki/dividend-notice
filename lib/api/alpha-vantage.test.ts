@@ -5,7 +5,7 @@ test('#getTimeSeriesMonthlyAdjusted', async () => {
   jest.spyOn(axios, 'get').mockResolvedValue(fakeForGetTimeSeriesMonthlyAdjusted)
   const av = new AlphaVantage()
   const res = await av.getTimeSeriesMonthlyAdjusted('IBM')
-  expect(res["Meta Data"]['1. Information']).toBe('Monthly Adjusted Prices and Volumes')
+  expect(res.metaData.information).toBe('Monthly Adjusted Prices and Volumes')
 })
 
 const fakeForGetTimeSeriesMonthlyAdjusted = {
@@ -25,6 +25,15 @@ const fakeForGetTimeSeriesMonthlyAdjusted = {
         "5. adjusted close": "120.8000",
         "6. volume": "53039869",
         "7. dividend amount": "1.6300"
+      },
+      "2021-01-29": {
+        "1. open": "125.8500",
+        "2. high": "132.2400",
+        "3. low": "117.3600",
+        "4. close": "119.1100",
+        "5. adjusted close": "117.5409",
+        "6. volume": "176168962",
+        "7. dividend amount": "0.0000"
       }
     }
   }
