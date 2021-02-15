@@ -8,7 +8,6 @@ export default function Home() {
       <Typography variant={'h2'}>
         Welcome to <a href="https://dividend-notice.net">Dividend Notice</a>
       </Typography>
-      <Button></Button>
     </DefaultLayout>
   )
 }
