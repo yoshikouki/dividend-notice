@@ -16,6 +16,7 @@ export const DefaultLayout = ({ children, title = 'Dividend Notice' }: Props) =>
         <title>{title}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
       <Header>
         <Logo>Dividend Notice</Logo>
@@ -43,6 +44,18 @@ const Logo = styled.h1`
 
 const Body = styled.div`
   padding: 2rem;
+  font-family: ${[
+    'Roboto',
+    '-apple-system',
+    'Helvetica',
+    'Meiryo',
+    'ヒラギノ角ゴシック',
+    'Hiragino Sans',
+    'ヒラギノ角ゴ ProN W3',
+    'Hiragino Kaku Gothic ProN',
+    'Verdana',
+    'sans-serif',
+  ].join(', ')};
 `
 
 const Footer = styled.footer`

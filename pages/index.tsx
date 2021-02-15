@@ -1,12 +1,14 @@
 import React from 'react'
 import {DefaultLayout} from "../layouts/Default";
+import {Typography} from "@material-ui/core";
 
 export default function Home() {
   return (
     <DefaultLayout>
-      <h1>
+      <Typography variant={'h2'}>
         Welcome to <a href="https://dividend-notice.net">Dividend Notice</a>
-      </h1>
+      </Typography>
+      <Button></Button>
     </DefaultLayout>
   )
 }
