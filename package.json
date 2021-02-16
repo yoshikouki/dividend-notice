@@ -9,8 +9,9 @@
     "test": "jest",
     "fmt": "prettier --write",
     "fmt:all": "prettier --write './**/*.ts' './**/*.tsx'",
-    "lint": "eslint ./**/*.ts ./**/*.tsx",
-    "ci": "run-s fmt:all lint test"
+    "eslint": "eslint ./**/*.ts ./**/*.tsx",
+    "lint": "run-s fmt:all eslint",
+    "ci": "run-s lint test"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
