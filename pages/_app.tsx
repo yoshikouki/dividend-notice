@@ -1,12 +1,12 @@
 import React from 'react'
 import { AppProps } from 'next/app'
-import { StylesProvider } from '@material-ui/styles'
+import { Theme } from '../components/Theme'
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <StylesProvider injectFirst>
+    <Theme>
       <Component {...pageProps} />
-    </StylesProvider>
+    </Theme>
   )
 }
 
