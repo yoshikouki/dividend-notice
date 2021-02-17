@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import styled from 'styled-components'
 
 type Props = {
@@ -14,22 +15,19 @@ const Header = styled.header`
 `
 
 const Logo = styled.h1`
-  padding-left: 2rem;
   font-size: 1rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
 `
 
 const Body = styled.div`
-  padding: 2rem;
-  font-family: ${['Roboto', '-apple-system', 'Helvetica', 'Meiryo', 'ヒラギノ角ゴシック', 'Hiragino Sans', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'Verdana', 'sans-serif'].join(', ')};
+  padding: 2rem 0;
 `
 
 const Footer = styled.footer`
-  padding: 2rem;
   text-align: center;
   font-size: 0.7rem;
-  font-weight: bold;
+  font-weight: normal;
   color: #ccc;
 `
 
@@ -45,7 +43,11 @@ export const DefaultLayout = ({ children, title = 'Dividend Notice' }: Props) =>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
       <Header>
-        <Logo>Dividend Notice</Logo>
+        <Link href={'./'}>
+          <a>
+            <Logo>Dividend Notice</Logo>
+          </a>
+        </Link>
       </Header>
       <Body>{children}</Body>
       <Footer>

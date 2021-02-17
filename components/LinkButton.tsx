@@ -9,7 +9,11 @@ type Props = {
 }
 
 const StyledButton = styled(Button)`
-  padding: ${(props) => props.theme.spacing(0, 4)};
+  margin: 2rem 0;
+  padding: 1rem 2rem;
+  width: 100%;
+  min-height: 4rem;
+  font-size: large;
   background-color: ${(props) => props.theme.palette.primary.main};
 `
 
