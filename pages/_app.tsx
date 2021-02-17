@@ -1,9 +1,13 @@
 import React from 'react'
-import '../styles/globals.css'
 import { AppProps } from 'next/app'
+import { Theme } from '../components/Theme'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function App({ Component, pageProps }: AppProps) {
+  return (
+    <Theme>
+      <Component {...pageProps} />
+    </Theme>
+  )
 }
 
-export default MyApp
+export default App
