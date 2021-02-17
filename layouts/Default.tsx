@@ -32,7 +32,7 @@ const Footer = styled.footer`
 `
 
 const thisYear = new Date().getFullYear()
-const copyright = `2021${thisYear == 2021 ? '' : '-' + thisYear} @yoshikouki. All rights reserved.`
+const copyright = `2021${thisYear === 2021 ? '' : '-' + thisYear} @yoshikouki. All rights reserved.`
 
 export const DefaultLayout = ({ children, title = 'Dividend Notice' }: Props) => {
   return (
