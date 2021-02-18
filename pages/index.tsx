@@ -3,7 +3,7 @@ import { DefaultLayout } from '../layouts/Default'
 import { Typography } from '@material-ui/core'
 import { LinkButton } from '../components/LinkButton'
 
-export default function Home() {
+const Home = () => {
   return (
     <DefaultLayout>
       <Typography variant={'h2'}>
@@ -13,3 +13,5 @@ export default function Home() {
     </DefaultLayout>
   )
 }
+
+export default Home

@@ -7,4 +7,5 @@ test('#getTimeSeriesMonthlyAdjusted', async () => {
   const av = new AlphaVantage()
   const res = await av.getTimeSeriesMonthlyAdjusted('IBM')
   expect(res.metaData.information).toBe('Monthly Adjusted Prices and Volumes')
+  expect(res.data[0].dividendAmount).toMatch(/[0-9.]+/)
 })

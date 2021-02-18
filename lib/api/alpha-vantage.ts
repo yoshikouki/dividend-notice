@@ -12,7 +12,9 @@ export class AlphaVantage {
       symbol: symbol,
       apikey: this.apiKey,
     }
+
     const res = await requestGet(this.url, params)
+
     const metaData = res['Meta Data']
     const data = res['Monthly Adjusted Time Series']
     return {
