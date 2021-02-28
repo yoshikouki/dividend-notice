@@ -2,7 +2,7 @@ import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
 import {AlphaVantage, AlphaVantageData, TimeSeriesMonthlyAdjusted} from "../../lib/api/alpha-vantage";
 import {GetServerSideProps} from "next";
-import {PageTitle} from "../../components/PageTitle";
+import {DividendPageTitle} from "../../components/DividendPageTitle";
 import {DividendList} from "../../components/DividendList";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 const DividendBySymbol = (props: Props) => {
   return (
     <DefaultLayout>
-      <PageTitle  metaDate={props.data.metaData} />
+      <DividendPageTitle metaDate={props.data.metaData} />
       <DividendList data={props.data.data} />
     </DefaultLayout>
   )
