@@ -9,3 +9,9 @@ test('#getTimeSeriesMonthlyAdjusted', async () => {
   expect(res.metaData.information).toBe('Monthly Adjusted Prices and Volumes')
   expect(res.data[0].dividendAmount).toMatch(/[0-9.]+/)
 })
+
+test('#getListingStatus', async () => {
+  const av = new AlphaVantage()
+  const listingStatus = await av.getListingStatus()
+  expect(listingStatus).toBe([])
+})
