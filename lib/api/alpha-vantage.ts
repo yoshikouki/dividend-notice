@@ -1,9 +1,13 @@
 import { requestGet } from './core'
-require('dotenv').config()
 
 export class AlphaVantage {
   private url = 'https://www.alphavantage.co/query'
-  private apiKey = process.env.ALPHA_VANTAGE_API_KEY
+  private readonly apiKey
+
+  constructor(apiKey: string = 'demo') {
+   this.apiKey = apiKey
+
+  }
 
   // Document : https://www.alphavantage.co/documentation/#monthlyadj
   public async getTimeSeriesMonthlyAdjusted(symbol) {
@@ -17,7 +21,7 @@ export class AlphaVantage {
 
     const metaData = res['Meta Data']
     const data = res['Monthly Adjusted Time Series']
-    return {
+    const convertedData: TimeSeriesMonthlyAdjusted = {
       metaData: {
         information: metaData['1. Information'],
         symbol: metaData['2. Symbol'],
@@ -36,5 +40,28 @@ export class AlphaVantage {
         }
       }),
     }
+    return convertedData
   }
+}
+
+export interface TimeSeriesMonthlyAdjusted {
+  metaData: AlphaVantageMetaData,
+  data: AlphaVantageData[],
+}
+
+interface AlphaVantageMetaData {
+  information: string,
+  symbol: string,
+  lastRefreshed: string,
+  timeZone: string,
+}
+
+interface AlphaVantageData {
+  open: number,
+  high: number,
+  low: number,
+  close: number,
+  adjustedClose: number,
+  volume: number,
+  dividendAmount?: number,
 }
