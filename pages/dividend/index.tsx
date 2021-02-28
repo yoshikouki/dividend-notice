@@ -20,7 +20,7 @@ const Dividend = (props: Props) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
   const data = await alphaVantage.getTimeSeriesMonthlyAdjusted('IBM')
   return {
