@@ -1,23 +1,19 @@
 import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
-import { Typography } from '@material-ui/core'
-import {AlphaVantage, TimeSeriesMonthlyAdjusted} from "../../lib/api/alpha-vantage";
+import {AlphaVantage, AlphaVantageData, TimeSeriesMonthlyAdjusted} from "../../lib/api/alpha-vantage";
 import {GetServerSideProps} from "next";
-import {useRouter} from "next/router";
-import {route} from "next/dist/next-server/server/router";
+import {PageTitle} from "../../components/PageTitle";
+import {DividendList} from "../../components/DividendList";
 
 interface Props {
   data: TimeSeriesMonthlyAdjusted
 }
 
 const DividendBySymbol = (props: Props) => {
-  const metaData = props.data.metaData
   return (
     <DefaultLayout>
-      <Typography variant={'h2'}>Dividend</Typography>
-      <Typography variant={'h3'}>{metaData.symbol}</Typography>
-      <Typography variant={'subtitle1'}>{metaData.information}</Typography>
-      <Typography variant={'caption'}>Last Refreshd : {metaData.lastRefreshed} ({metaData.timeZone})</Typography>
+      <PageTitle  metaDate={props.data.metaData} />
+      <DividendList data={props.data.data} />
     </DefaultLayout>
   )
 }

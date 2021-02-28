@@ -30,6 +30,7 @@ export class AlphaVantage {
       },
       data: Object.keys(data).map((key) => {
         return {
+          date: key,
           open: data[key]['1. open'],
           high: data[key]['2. high'],
           low: data[key]['3. low'],
@@ -49,19 +50,20 @@ export interface TimeSeriesMonthlyAdjusted {
   data: AlphaVantageData[],
 }
 
-interface AlphaVantageMetaData {
+export interface AlphaVantageMetaData {
   information: string,
   symbol: string,
   lastRefreshed: string,
   timeZone: string,
 }
 
-interface AlphaVantageData {
+export interface AlphaVantageData {
+  date: string,
   open: number,
-  high: number,
-  low: number,
   close: number,
   adjustedClose: number,
+  high: number,
+  low: number,
   volume: number,
   dividendAmount?: number,
 }
