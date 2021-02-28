@@ -1,9 +1,9 @@
 import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
-import {AlphaVantage, AlphaVantageData, TimeSeriesMonthlyAdjusted} from "../../lib/api/alpha-vantage";
-import {GetServerSideProps} from "next";
-import {DividendPageTitle} from "../../components/DividendPageTitle";
-import {DividendList} from "../../components/DividendList";
+import { AlphaVantage, AlphaVantageData, TimeSeriesMonthlyAdjusted } from '../../lib/api/alpha-vantage'
+import { GetServerSideProps } from 'next'
+import { DividendPageTitle } from '../../components/DividendPageTitle'
+import { DividendList } from '../../components/DividendList'
 
 interface Props {
   data: TimeSeriesMonthlyAdjusted
@@ -23,8 +23,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = await alphaVantage.getTimeSeriesMonthlyAdjusted(context.params.symbol)
   return {
     props: {
-      data: data
-    }
+      data: data,
+    },
   }
 }
 

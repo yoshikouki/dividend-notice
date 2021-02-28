@@ -1,5 +1,5 @@
-import React from "react";
-import {AlphaVantageData} from "../lib/api/alpha-vantage";
+import React from 'react'
+import { AlphaVantageData } from '../lib/api/alpha-vantage'
 
 interface Props {
   data: AlphaVantageData[]

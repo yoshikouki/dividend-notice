@@ -5,8 +5,7 @@ export class AlphaVantage {
   private readonly apiKey
 
   constructor(apiKey: string = 'demo') {
-   this.apiKey = apiKey
-
+    this.apiKey = apiKey
   }
 
   // Document : https://www.alphavantage.co/documentation/#monthlyadj
@@ -46,24 +45,24 @@ export class AlphaVantage {
 }
 
 export interface TimeSeriesMonthlyAdjusted {
-  metaData: AlphaVantageMetaData,
-  data: AlphaVantageData[],
+  metaData: AlphaVantageMetaData
+  data: AlphaVantageData[]
 }
 
 export interface AlphaVantageMetaData {
-  information: string,
-  symbol: string,
-  lastRefreshed: string,
-  timeZone: string,
+  information: string
+  symbol: string
+  lastRefreshed: string
+  timeZone: string
 }
 
 export interface AlphaVantageData {
-  date: string,
-  open: number,
-  close: number,
-  adjustedClose: number,
-  high: number,
-  low: number,
-  volume: number,
-  dividendAmount?: number,
+  date: string
+  open: number
+  close: number
+  adjustedClose: number
+  high: number
+  low: number
+  volume: number
+  dividendAmount?: number
 }
