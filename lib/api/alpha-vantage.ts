@@ -15,7 +15,6 @@ export class AlphaVantage {
       symbol: symbol,
       apikey: this.apiKey,
     }
-
     const res = await requestGet(this.url, params)
 
     const metaData = res['Meta Data']
@@ -45,14 +44,10 @@ export class AlphaVantage {
 
   // Document : https://www.alphavantage.co/documentation/#listing-status
   public async getListingStatus (date: string = null, state:string = null) {
-    // const request = new XMLHttpRequest()
-    // request.open('GET', this.url + '?function=LISTING_STATUS&apikey=' + this.apiKey)
-    // request.send()
     const params = {
       function: 'LISTING_STATUS',
       apikey: this.apiKey,
     }
-
     const res = await requestGet(this.url, params)
     return res
   }
