@@ -1,4 +1,5 @@
 import { requestGet } from './core'
+import parser from 'csv-parse/lib/sync'
 
 export class AlphaVantage {
   private url = 'https://www.alphavantage.co/query'
@@ -19,7 +20,7 @@ export class AlphaVantage {
 
     const metaData = res['Meta Data']
     const data = res['Monthly Adjusted Time Series']
-    const convertedData: TimeSeriesMonthlyAdjusted = {
+    const convertedData: AlphaVantageResponse = {
       metaData: {
         information: metaData['1. Information'],
         symbol: metaData['2. Symbol'],
@@ -48,12 +49,22 @@ export class AlphaVantage {
       function: 'LISTING_STATUS',
       apikey: this.apiKey,
     }
-    const res = await requestGet(this.url, params)
+    const csv = await requestGet(this.url, params)
+
+    const data = parser(csv)
+    const res: ListingStatus = {
+      metaData: {
+        information: 'Listing Status',
+        lastRefreshed: new Date().toLocaleString(),
+        timeZone: 'Asia/Tokyo',
+      },
+      data: data
+    }
     return res
   }
 }
 
-export interface TimeSeriesMonthlyAdjusted {
+export interface AlphaVantageResponse {
   metaData: AlphaVantageMetaData
   data: AlphaVantageData[]
 }
@@ -74,4 +85,9 @@ export interface AlphaVantageData {
   low: number
   volume: number
   dividendAmount?: number
+}
+
+export interface ListingStatus {
+  metaData: AlphaVantageMetaData
+  data: any[]
 }
