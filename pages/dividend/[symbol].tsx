@@ -12,7 +12,7 @@ interface Props {
 const DividendBySymbol = (props: Props) => {
   return (
     <DefaultLayout>
-      <DividendPageTitle metaDate={props.data.metaData} />
+      <DividendPageTitle metaData={props.data.metaData} />
       <DividendList data={props.data.data} />
     </DefaultLayout>
   )

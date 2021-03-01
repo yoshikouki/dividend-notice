@@ -3,16 +3,16 @@ import React from 'react'
 import { AlphaVantageMetaData } from '../lib/api/alpha-vantage'
 
 interface Props {
-  metaDate: AlphaVantageMetaData
+  metaData: AlphaVantageMetaData
 }
 
 export const DividendPageTitle = (props: Props) => {
   return (
     <div className="pageTitle">
-      <Typography variant={'h2'}>{props.metaDate.symbol}</Typography>
-      <Typography variant={'subtitle1'}>{props.metaDate.information}</Typography>
+      <Typography variant={'h2'}>{props.metaData.symbol}</Typography>
+      <Typography variant={'subtitle1'}>{props.metaData.information}</Typography>
       <Typography variant={'caption'}>
-        Last Refreshed : {props.metaDate.lastRefreshed} ({props.metaDate.timeZone})
+        Last Refreshed : {props.metaData.lastRefreshed} ({props.metaData.timeZone})
       </Typography>
     </div>
   )
