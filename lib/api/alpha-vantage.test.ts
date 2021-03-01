@@ -1,17 +1,18 @@
 import { AlphaVantage } from './alpha-vantage'
 import axios from 'axios'
-import { fakeForGetTimeSeriesMonthlyAdjusted } from '../../tests/faker'
+import { fakeForGetTimeSeriesMonthlyAdjusted, fakeListingStatus } from '../../tests/faker'
 
 test('#getTimeSeriesMonthlyAdjusted', async () => {
   jest.spyOn(axios, 'get').mockResolvedValue(fakeForGetTimeSeriesMonthlyAdjusted)
   const av = new AlphaVantage()
-  const res = await av.getTimeSeriesMonthlyAdjusted('IBM')
+  const res = await av.getTimeSeriesMonthlyAdjusted('SPYD')
   expect(res.metaData.information).toBe('Monthly Adjusted Prices and Volumes')
   expect(res.data[0].dividendAmount).toMatch(/[0-9.]+/)
 })
 
 test('#getListingStatus', async () => {
+  jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatus)
   const av = new AlphaVantage()
   const listingStatus = await av.getListingStatus()
-  expect(listingStatus).toBe([])
+  expect(listingStatus).toBe(fakeListingStatus.data)
 })
