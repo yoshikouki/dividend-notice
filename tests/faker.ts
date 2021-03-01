@@ -54,3 +54,13 @@ export const fakeRequestGet = {
     url: 'https://httpbin.org/get?param=test',
   },
 }
+
+export const fakeListingStatus = `symbol,name,exchange,assetType,ipoDate,delistingDate,status
+A,Agilent Technologies Inc,NYSE,Stock,1999-11-18,null,Active
+AA,Alcoa Corp,NYSE,Stock,2016-11-01,null,Active
+AAA,AAF First Priority CLO Bond ETF,NYSE ARCA,ETF,2020-09-09,null,Active
+ZYNE,Zynerba Pharmaceuticals Inc,NASDAQ,Stock,2015-08-05,null,Active
+ZYXI,Zynex Inc,NASDAQ,Stock,2002-12-31,null,Active
+ZZK,,NYSE ARCA,Stock,2020-07-22,null,Active
+ZZZ,TEST TICKER FOR UTP,NYSE ARCA,Stock,2014-10-31,null,Active
+`
