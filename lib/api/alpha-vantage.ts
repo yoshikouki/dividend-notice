@@ -71,7 +71,7 @@ export interface AlphaVantageResponse {
 
 export interface AlphaVantageMetaData {
   information: string
-  symbol: string
+  symbol?: string
   lastRefreshed: string
   timeZone: string
 }
