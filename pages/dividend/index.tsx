@@ -1,24 +1,29 @@
 import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
-import { AlphaVantage } from '../../lib/api/alpha-vantage'
-import { GetServerSideProps } from 'next'
+import {GetStaticProps} from 'next'
+import {Company} from "../../lib/companies";
 
 interface Props {
-  companies: string
+  companies: any[]
 }
 
 const Dividend = (props: Props) => {
+  const list = props.companies.map((company) => {
+    return <li>{company.symbol}</li>
+  })
+
   return <DefaultLayout>
-    <p>{props.companies}</p>
+    <ul>
+      {list}
+    </ul>
   </DefaultLayout>
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
-  const csv = await alphaVantage.getListingStatus()
+export const getStaticProps: GetStaticProps = async (context) => {
+  const allCompanies = await Company.all(process.env.ALPHA_VANTAGE_API_KEY)
   return {
     props: {
-      companies: csv
+      companies: allCompanies
     },
   }
 }
