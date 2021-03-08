@@ -1,22 +1,37 @@
 import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
 import {GetStaticProps} from 'next'
-import {Company} from "../../lib/companies";
+import {Company} from "../../lib/companies"
+import {DataGrid} from "@material-ui/data-grid";
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  height: 3000px;
+`
 
 interface Props {
   companies: any[]
 }
 
 const Dividend = (props: Props) => {
-  const list = props.companies.map((company) => {
-    return <li>{company.symbol}</li>
-  })
-
-  return <DefaultLayout>
-    <ul>
-      {list}
-    </ul>
-  </DefaultLayout>
+  const rows = props.companies
+  const columns = [
+    {field : 'symbol', headerName: 'Symbol'},
+    {field : 'name', headerName: 'name'},
+    {field : 'exchange', headerName: 'exchange'},
+    {field : 'assetType', headerName: 'assetType'},
+    {field : 'ipoDate', headerName: 'ipoDate'},
+    {field : 'delistingDate', headerName: 'delistingDate'},
+    {field : 'status', headerName: 'status'},
+  ]
+  console.debug(rows)
+  return (
+    <DefaultLayout>
+      <Wrapper>
+        <DataGrid rows={rows} columns={columns} />
+      </Wrapper>
+    </DefaultLayout>
+  )
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {

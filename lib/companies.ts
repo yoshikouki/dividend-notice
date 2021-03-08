@@ -6,9 +6,12 @@ export class Company {
     const csv = await alphaVantage.getListingStatus()
     // ヘッダー行を削除
     csv.data.shift()
-    const companies = csv.data.map((row) => {
-      let company = {}
+    const companies = csv.data.map((row, index) => {
+      let company = {
+        id: index
+      }
       row.forEach((data, index) => {
+
         company[ListingStatusKeyTable[index]] = data
       })
       return company
