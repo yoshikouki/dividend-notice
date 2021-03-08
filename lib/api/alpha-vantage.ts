@@ -51,8 +51,8 @@ export class AlphaVantage {
     }
     const csv = await requestGet(this.url, params)
 
-    const data = parser(csv)
-    const res: ListingStatus = {
+    const data: ListingStatusData[] = parser(csv)
+    const res: ListingStatusResponse = {
       metaData: {
         information: 'Listing Status',
         lastRefreshed: new Date().toLocaleString(),
@@ -87,7 +87,9 @@ export interface AlphaVantageData {
   dividendAmount?: number
 }
 
-export interface ListingStatus {
+export interface ListingStatusResponse {
   metaData: AlphaVantageMetaData
-  data: any[]
+  data: ListingStatusData[]
 }
+
+export type ListingStatusData = [string, string, string, string, string, string, string]
