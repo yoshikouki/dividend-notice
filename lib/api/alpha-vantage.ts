@@ -52,15 +52,7 @@ export class AlphaVantage {
     const csv = await requestGet(this.url, params)
 
     const data: ListingStatusData[] = parser(csv)
-    const res: ListingStatusResponse = {
-      metaData: {
-        information: 'Listing Status',
-        lastRefreshed: new Date().toLocaleString(),
-        timeZone: 'Asia/Tokyo',
-      },
-      data: data,
-    }
-    return res
+    return data
   }
 }
 
