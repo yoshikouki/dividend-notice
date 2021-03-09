@@ -7,8 +7,8 @@ export class Company {
     const alphaVantage = new AlphaVantage(apiKey)
     const csv = await alphaVantage.getListingStatus()
     // ヘッダー行を削除
-    csv.data.shift()
-    return csv.data.map((row, index) => {
+    csv.shift()
+    return csv.map((row, index) => {
       const company = {
         id: index,
       }
