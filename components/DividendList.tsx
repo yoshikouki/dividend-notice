@@ -19,9 +19,9 @@ export const DividendList = (props: Props) => {
           <th>調整後終値</th>
           <th>出来高</th>
         </tr>
-        {props.data.map((d: AlphaVantageData) => {
+        {props.data.map((d: AlphaVantageData, i) => {
           return (
-            <tr>
+            <tr key={i}>
               <th>{d.date}</th>
               <th>{d.dividendAmount}</th>
               <th>{d.open}</th>

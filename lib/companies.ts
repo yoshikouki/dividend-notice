@@ -1,13 +1,15 @@
 import { AlphaVantage } from './api/alpha-vantage'
 
+const ListingStatusKeyTable = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
+
 export class Company {
   public static async all(apiKey = 'demo') {
     const alphaVantage = new AlphaVantage(apiKey)
     const csv = await alphaVantage.getListingStatus()
     // ヘッダー行を削除
     csv.data.shift()
-    const companies = csv.data.map((row, index) => {
-      let company = {
+    return csv.data.map((row, index) => {
+      const company = {
         id: index,
       }
       row.forEach((data, index) => {
@@ -15,8 +17,5 @@ export class Company {
       })
       return company
     })
-    return companies
   }
 }
-
-const ListingStatusKeyTable = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
