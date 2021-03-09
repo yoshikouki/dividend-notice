@@ -44,7 +44,7 @@ export class AlphaVantage {
   }
 
   // Document : https://www.alphavantage.co/documentation/#listing-status
-  public async getListingStatus (date: string = null, state:string = null) {
+  public async getListingStatus(date: string = null, state: string = null) {
     const params = {
       function: 'LISTING_STATUS',
       apikey: this.apiKey,
@@ -58,7 +58,7 @@ export class AlphaVantage {
         lastRefreshed: new Date().toLocaleString(),
         timeZone: 'Asia/Tokyo',
       },
-      data: data
+      data: data,
     }
     return res
   }

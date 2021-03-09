@@ -1,10 +1,10 @@
 import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
-import {GetStaticProps} from 'next'
-import {Company} from "../../lib/companies"
-import {DataGrid} from "@material-ui/data-grid";
+import { GetStaticProps } from 'next'
+import { Company } from '../../lib/companies'
+import { DataGrid } from '@material-ui/data-grid'
 import styled from 'styled-components'
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router'
 
 const Wrapper = styled.div`
   height: 1000px;
@@ -19,11 +19,11 @@ const Dividend = (props: Props) => {
 
   const rows = props.companies
   const columns = [
-    {field : 'symbol', headerName: 'Symbol'},
-    {field : 'name', headerName: 'Name', width: 300},
-    {field : 'exchange', headerName: 'Exchange', width: 120},
-    {field : 'assetType', headerName: 'Type'},
-    {field : 'ipoDate', headerName: 'IPO Date', width: 120},
+    { field: 'symbol', headerName: 'Symbol' },
+    { field: 'name', headerName: 'Name', width: 300 },
+    { field: 'exchange', headerName: 'Exchange', width: 120 },
+    { field: 'assetType', headerName: 'Type' },
+    { field: 'ipoDate', headerName: 'IPO Date', width: 120 },
   ]
 
   return (
@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const allCompanies = await Company.all(process.env.ALPHA_VANTAGE_API_KEY)
   return {
     props: {
-      companies: allCompanies
+      companies: allCompanies,
     },
   }
 }

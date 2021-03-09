@@ -1,4 +1,4 @@
-import {AlphaVantage} from "./api/alpha-vantage";
+import { AlphaVantage } from './api/alpha-vantage'
 
 export class Company {
   public static async all(apiKey = 'demo') {
@@ -8,7 +8,7 @@ export class Company {
     csv.data.shift()
     const companies = csv.data.map((row, index) => {
       let company = {
-        id: index
+        id: index,
       }
       row.forEach((data, index) => {
         company[ListingStatusKeyTable[index]] = data
@@ -16,16 +16,7 @@ export class Company {
       return company
     })
     return companies
-
   }
 }
 
-const ListingStatusKeyTable = [
-  'symbol',
-  'name',
-  'exchange',
-  'assetType',
-  'ipoDate',
-  'delistingDate',
-  'status',
-]
+const ListingStatusKeyTable = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
