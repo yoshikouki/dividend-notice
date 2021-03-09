@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import {useRouter} from "next/router";
 
 const Wrapper = styled.div`
-  height: 3000px;
+  height: 1000px;
 `
 
 interface Props {
@@ -20,12 +20,10 @@ const Dividend = (props: Props) => {
   const rows = props.companies
   const columns = [
     {field : 'symbol', headerName: 'Symbol'},
-    {field : 'name', headerName: 'name'},
-    {field : 'exchange', headerName: 'exchange'},
-    {field : 'assetType', headerName: 'assetType'},
-    {field : 'ipoDate', headerName: 'ipoDate'},
-    {field : 'delistingDate', headerName: 'delistingDate'},
-    {field : 'status', headerName: 'status'},
+    {field : 'name', headerName: 'Name', width: 300},
+    {field : 'exchange', headerName: 'Exchange', width: 120},
+    {field : 'assetType', headerName: 'Type'},
+    {field : 'ipoDate', headerName: 'IPO Date', width: 120},
   ]
 
   return (
