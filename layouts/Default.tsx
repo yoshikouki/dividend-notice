@@ -44,7 +44,7 @@ export const DefaultLayout = ({ children, title = 'Dividend Notice' }: Props) =>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
       <Header>
-        <Link href={'./'}>
+        <Link href={'/'}>
           <a>
             <Logo>Dividend Notice</Logo>
           </a>
