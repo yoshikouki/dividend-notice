@@ -4,6 +4,7 @@ import {GetStaticProps} from 'next'
 import {Company} from "../../lib/companies"
 import {DataGrid} from "@material-ui/data-grid";
 import styled from 'styled-components'
+import {useRouter} from "next/router";
 
 const Wrapper = styled.div`
   height: 3000px;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const Dividend = (props: Props) => {
+  const router = useRouter()
+
   const rows = props.companies
   const columns = [
     {field : 'symbol', headerName: 'Symbol'},
@@ -24,11 +27,18 @@ const Dividend = (props: Props) => {
     {field : 'delistingDate', headerName: 'delistingDate'},
     {field : 'status', headerName: 'status'},
   ]
-  console.debug(rows)
+
   return (
     <DefaultLayout>
       <Wrapper>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          onRowClick={async (param) => {
+            let path = '/dividend/' + param.row.symbol
+            await router.push(path)
+          }}
+        />
       </Wrapper>
     </DefaultLayout>
   )

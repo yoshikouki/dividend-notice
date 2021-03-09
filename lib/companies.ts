@@ -11,7 +11,6 @@ export class Company {
         id: index
       }
       row.forEach((data, index) => {
-
         company[ListingStatusKeyTable[index]] = data
       })
       return company
