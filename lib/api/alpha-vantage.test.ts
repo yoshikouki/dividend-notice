@@ -1,6 +1,6 @@
 import { AlphaVantage } from './alpha-vantage'
 import axios from 'axios'
-import { fakeForGetTimeSeriesMonthlyAdjusted, fakeListingStatus } from '../../tests/faker'
+import {fakeForGetTimeSeriesMonthlyAdjusted, fakeListingStatusForLite} from '../../tests/faker'
 import parser from "csv-parse/lib/sync";
 
 test('#getTimeSeriesMonthlyAdjusted', async () => {
@@ -12,8 +12,8 @@ test('#getTimeSeriesMonthlyAdjusted', async () => {
 })
 
 test('#getListingStatus', async () => {
-  jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatus)
+  jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatusForLite)
   const av = new AlphaVantage()
   const listingStatus = await av.getListingStatus()
-  expect(listingStatus).toStrictEqual(parser(fakeListingStatus.data))
+  expect(listingStatus).toStrictEqual(parser(fakeListingStatusForLite.data))
 })

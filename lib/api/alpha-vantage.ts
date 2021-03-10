@@ -1,5 +1,6 @@
 import { requestGet } from './core'
 import parser from 'csv-parse/lib/sync'
+import {fakeListingStatus} from "../../tests/data/fakeListingStatus";
 
 export class AlphaVantage {
   private url = 'https://www.alphavantage.co/query'
@@ -49,7 +50,13 @@ export class AlphaVantage {
       function: 'LISTING_STATUS',
       apikey: this.apiKey,
     }
-    const csv = await requestGet(this.url, params)
+    // APIのアクセスに時間がかかるので開発では予めDLしたデータを使用する
+    let csv = ''
+    if (process.env.NODE_ENV === 'production') {
+      csv = await requestGet(this.url, params)
+    } else {
+      csv = fakeListingStatus.data
+    }
 
     const data: ListingStatusData[] = parser(csv)
     return data
