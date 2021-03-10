@@ -9,7 +9,7 @@ interface Props {
   data: AlphaVantageResponse
 }
 
-const Company = (props: Props) => {
+const CompanyBySymbol = (props: Props) => {
   return (
     <DefaultLayout>
       <CompanyPageTitle metaData={props.data.metaData} />
@@ -28,4 +28,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default Company
+export default CompanyBySymbol
