@@ -52,10 +52,10 @@ export class AlphaVantage {
     }
     // APIのアクセスに時間がかかるので開発では予めDLしたデータを使用する
     let csv = ''
-    if (process.env.NODE_ENV === 'production') {
-      csv = await requestGet(this.url, params)
-    } else {
+    if (process.env.NODE_ENV === 'development') {
       csv = fakeListingStatus.data
+    } else {
+      csv = await requestGet(this.url, params)
     }
 
     const data: ListingStatusData[] = parser(csv)

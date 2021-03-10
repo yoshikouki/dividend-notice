@@ -15,7 +15,18 @@ export class Company {
       row.forEach((data, index) => {
         company[ListingStatusKeyTable[index]] = data
       })
-      return company
+      return <CompanyData>company
     })
   }
+}
+
+export interface CompanyData {
+  id: number
+  symbol: string
+  name: string
+  exchange: string
+  assetType: string
+  ipoDate: string
+  delistingDate: string
+  status: string
 }
