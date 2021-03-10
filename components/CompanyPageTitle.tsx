@@ -6,7 +6,7 @@ interface Props {
   metaData: AlphaVantageMetaData
 }
 
-export const DividendPageTitle = (props: Props) => {
+export const CompanyPageTitle = (props: Props) => {
   return (
     <div className="pageTitle">
       <Typography variant={'h2'}>{props.metaData.symbol}</Typography>

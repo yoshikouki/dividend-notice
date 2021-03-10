@@ -14,7 +14,7 @@ interface Props {
   companies: any[]
 }
 
-const Dividend = (props: Props) => {
+const Companies = (props: Props) => {
   const router = useRouter()
 
   const rows = props.companies
@@ -33,7 +33,7 @@ const Dividend = (props: Props) => {
           rows={rows}
           columns={columns}
           onRowClick={async (param) => {
-            let path = '/dividend/' + param.row.symbol
+            let path = '/companies/' + param.row.symbol
             await router.push(path)
           }}
         />
@@ -51,4 +51,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 }
 
-export default Dividend
+export default Companies

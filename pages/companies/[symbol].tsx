@@ -2,18 +2,18 @@ import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
 import { AlphaVantage, AlphaVantageData, AlphaVantageResponse } from '../../lib/api/alpha-vantage'
 import { GetServerSideProps } from 'next'
-import { DividendPageTitle } from '../../components/DividendPageTitle'
-import { DividendList } from '../../components/DividendList'
+import { CompanyPageTitle } from '../../components/CompanyPageTitle'
+import { CompanyList } from '../../components/CompanyList'
 
 interface Props {
   data: AlphaVantageResponse
 }
 
-const DividendBySymbol = (props: Props) => {
+const Company = (props: Props) => {
   return (
     <DefaultLayout>
-      <DividendPageTitle metaData={props.data.metaData} />
-      <DividendList data={props.data.data} />
+      <CompanyPageTitle metaData={props.data.metaData} />
+      <CompanyList data={props.data.data} />
     </DefaultLayout>
   )
 }
@@ -28,4 +28,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default DividendBySymbol
+export default Company
