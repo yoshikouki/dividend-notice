@@ -6,9 +6,13 @@ export class Company {
   public static async all(apiKey = 'demo') {
     const alphaVantage = new AlphaVantage(apiKey)
     const csv = await alphaVantage.getListingStatus()
-    // ヘッダー行を削除
-    csv.shift()
-    return csv.map((row, index) => {
+
+    // ETF を除外して企業情報だけにする
+    const assetTypeIndex = ListingStatusKeyTable.indexOf('assetType')
+    const companies = csv.filter((row) => {
+      return row[assetTypeIndex] === 'Stock'
+    })
+    return companies.map((row, index) => {
       const company = {
         id: index,
       }

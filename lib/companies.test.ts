@@ -8,5 +8,5 @@ test('Company.all', async () => {
   const type = companies.map((company) => {
     return company.assetType
   })
-  expect(Array.from(new Set(type))).toBe(['Stock'])
+  expect(Array.from(new Set(type))).toStrictEqual(['Stock'])
 })
