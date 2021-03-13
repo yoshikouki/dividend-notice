@@ -1,6 +1,6 @@
-import {Company} from "./companies";
-import {fakeListingStatusForLite} from "../tests/faker";
-import axios from "axios";
+import { Company } from './companies'
+import { fakeListingStatusForLite } from '../tests/faker'
+import axios from 'axios'
 
 test('Company.all', async () => {
   jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatusForLite)

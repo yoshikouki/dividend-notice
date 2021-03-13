@@ -1,6 +1,7 @@
 export class Stock {
   public static async etfOfNy(apiKey = 'demo') {
-      return [{
+    return [
+      {
         id: 1,
         symbol: 'Symbol',
         name: 'Name',
@@ -9,6 +10,7 @@ export class Stock {
         ipoDate: 'ipoDate',
         delistingDate: 'delistingDate',
         status: 'status',
-      },]
+      },
+    ]
   }
 }

@@ -1,6 +1,6 @@
 import { requestGet } from './core'
 import parser from 'csv-parse/lib/sync'
-import {fakeListingStatus} from "../../tests/data/fakeListingStatus";
+import { fakeListingStatus } from '../../tests/data/fakeListingStatus'
 
 export class AlphaVantage {
   private url = 'https://www.alphavantage.co/query'

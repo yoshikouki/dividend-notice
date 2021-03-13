@@ -1,6 +1,6 @@
-import {Stock} from "./stocks";
-import axios from "axios";
-import {fakeListingStatusForLite} from "../tests/faker";
+import { Stock } from './stocks'
+import axios from 'axios'
+import { fakeListingStatusForLite } from '../tests/faker'
 
 test('Stock.etfOfNy', async () => {
   jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatusForLite)

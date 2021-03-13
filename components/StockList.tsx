@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import {DataGrid} from "@material-ui/data-grid";
-import React from "react";
-import {useRouter} from "next/router";
+import { DataGrid } from '@material-ui/data-grid'
+import React from 'react'
+import { useRouter } from 'next/router'
 
 const Wrapper = styled.div`
   height: 1000px;
@@ -30,7 +30,7 @@ const StockList = (props: Props) => {
         rows={rows}
         columns={columns}
         onRowClick={async (param) => {
-          let path = `/${props.type}/${param.row.symbol}`
+          const path = `/${props.type}/${param.row.symbol}`
           await router.push(path)
         }}
       />
