@@ -8,5 +8,6 @@ export function requestGet(url = 'https://localhost', params = {}) {
     })
     .catch((err) => {
       console.error(err)
+      throw Error('Invalid Request')
     })
 }
