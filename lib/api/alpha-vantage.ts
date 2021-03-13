@@ -45,10 +45,11 @@ export class AlphaVantage {
   }
 
   public async getListingStatus(date: string = null, state: string = null) {
-    const array = await this.fetchListingStatus()
+    const res = await this.fetchListingStatus()
+    const csv = parser(res)
     // CSV のヘッダー行をオブジェクトの key として使う
-    const objectKeys = array.shift()
-    const objectList: ListingStatus[] = this.convertToObject(array, objectKeys)
+    const objectKeys = csv.shift()
+    const objectList: ListingStatus[] = this.convertToObject(csv, objectKeys)
     return objectList
   }
 
@@ -65,9 +66,7 @@ export class AlphaVantage {
     } else {
       csv = await requestGet(this.url, params)
     }
-
-    const data = parser(csv)
-    return data
+    return csv
   }
 
   private convertToObject(valueArray: any[], keysArray: string[]) {
