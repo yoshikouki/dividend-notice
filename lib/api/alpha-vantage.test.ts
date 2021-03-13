@@ -11,9 +11,22 @@ test('#getTimeSeriesMonthlyAdjusted', async () => {
   expect(res.data[0].dividendAmount).toMatch(/[0-9.]+/)
 })
 
-test('#getListingStatus', async () => {
-  jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatusForLite)
-  const av = new AlphaVantage()
-  const listingStatus = await av.getListingStatus()
-  expect(listingStatus).toStrictEqual(parser(fakeListingStatusForLite.data))
+describe('#getListingStatus', () => {
+  test('#getListingStatus', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatusForLite)
+    const av = new AlphaVantage()
+    const listingStatus = await av.getListingStatus()
+    const firstRow = parser(fakeListingStatusForLite.data)[1]
+    const expected = {
+      "id": 1,
+      "symbol": firstRow[0],
+      "name": firstRow[1],
+      "exchange": firstRow[2],
+      "assetType": firstRow[3],
+      "ipoDate": firstRow[4],
+      "delistingDate": firstRow[5],
+      "status": firstRow[6],
+    }
+    expect(listingStatus[0]).toStrictEqual(expected)
+  })
 })

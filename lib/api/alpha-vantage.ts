@@ -44,8 +44,16 @@ export class AlphaVantage {
     return convertedData
   }
 
-  // Document : https://www.alphavantage.co/documentation/#listing-status
   public async getListingStatus(date: string = null, state: string = null) {
+    const array = await this.fetchListingStatus()
+    // CSV のヘッダー行をオブジェクトの key として使う
+    const objectKeys = array.shift()
+    const objectList: ListingStatus[] = this.convertToObject(array, objectKeys)
+    return objectList
+  }
+
+  // Document : https://www.alphavantage.co/documentation/#listing-status
+  private async fetchListingStatus() {
     const params = {
       function: 'LISTING_STATUS',
       apikey: this.apiKey,
@@ -58,8 +66,20 @@ export class AlphaVantage {
       csv = await requestGet(this.url, params)
     }
 
-    const data: ListingStatusData[] = parser(csv)
+    const data = parser(csv)
     return data
+  }
+
+  private convertToObject(valueArray: any[], keysArray: string[]) {
+    return valueArray.map((row, rowNumber) => {
+      const object = {
+        id: rowNumber + 1,
+      }
+      row.forEach((data, columnNumber) => {
+        object[keysArray[columnNumber]] = data
+      })
+      return object
+    })
   }
 }
 
@@ -88,7 +108,16 @@ export interface AlphaVantageData {
 
 export interface ListingStatusResponse {
   metaData: AlphaVantageMetaData
-  data: ListingStatusData[]
+  data: [string, string, string, string, string, string, string][]
 }
 
-export type ListingStatusData = [string, string, string, string, string, string, string]
+interface ListingStatus {
+  id: number
+  symbol?: string
+  name?: string
+  exchange?: string
+  assetType?: string
+  ipoDate?: string
+  delistingDate?: string
+  status?: string
+}
