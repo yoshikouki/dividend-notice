@@ -10,6 +10,7 @@ const Home = () => {
         Welcome to <a href="https://dividend-notice.net">Dividend Notice</a>
       </Typography>
       <LinkButton title={'Companies'} path={'/companies'} />
+      <LinkButton title={'ETF'} path={'/etf'} />
     </DefaultLayout>
   )
 }
