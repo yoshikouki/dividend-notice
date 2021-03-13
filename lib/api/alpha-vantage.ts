@@ -106,6 +106,27 @@ export interface AlphaVantageData {
   dividendAmount?: number
 }
 
+export const KeysTableForGetTimeSeriesMonthlyAdjusted = {
+  metaData: {
+    key: 'Meta Data',
+    information: '1. Information',
+    symbol: '2. Symbol',
+    lastRefreshed: '3. Last Refreshed',
+    timeZone: '4. Time Zone',
+  },
+  data: {
+    key: 'Monthly Adjusted Time Series',
+    date: /\d{4}-\d{2}-\d{2}/,
+    open: '1. open',
+    close: '4. close',
+    adjustedClose: '5. adjusted close',
+    high: '2. high',
+    low: '3. low',
+    volume: '6. volume',
+    dividendAmount: '7. dividend amount',
+  },
+}
+
 export interface ListingStatusResponse {
   metaData: AlphaVantageMetaData
   data: [string, string, string, string, string, string, string][]
