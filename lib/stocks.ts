@@ -1,4 +1,4 @@
-import {AlphaVantage} from "./api/alpha-vantage";
+import { AlphaVantage } from './api/alpha-vantage'
 
 export class Stock {
   public static async allOfNyEtfs(apiKey = 'demo') {

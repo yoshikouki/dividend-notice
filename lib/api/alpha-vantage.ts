@@ -54,7 +54,7 @@ export class AlphaVantage {
       obj['date'] = date
       return obj
     })
-      return <AlphaVantageResponse>{
+    return <AlphaVantageResponse>{
       metaData: metaData,
       data: data,
     }
@@ -113,7 +113,7 @@ interface GetTimeSeriesMonthlyAdjustedResponse {
     '2. Symbol': string
     '3. Last Refreshed': string
     '4. Time Zone': string
-  },
+  }
   'Monthly Adjusted Time Series': {
     string: {
       '1. open': string
@@ -123,7 +123,7 @@ interface GetTimeSeriesMonthlyAdjustedResponse {
       '5. adjusted close': string
       '6. volume': string
       '7. dividend amount': string
-    },
+    }
   }
 }
 

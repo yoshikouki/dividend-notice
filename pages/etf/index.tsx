@@ -2,7 +2,7 @@ import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
 import { GetStaticProps } from 'next'
 import StockList from '../../components/StockList'
-import {Stock} from "../../lib/stocks";
+import { Stock } from '../../lib/stocks'
 
 interface Props {
   companies: any[]
