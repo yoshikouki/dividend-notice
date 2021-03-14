@@ -1,5 +1,5 @@
 export class Stock {
-  public static async etfOfNy(apiKey = 'demo') {
+  public static async allOfNyEtfs(apiKey = 'demo') {
     return [
       {
         id: 1,

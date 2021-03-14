@@ -4,7 +4,7 @@ import { fakeListingStatusForLite } from '../tests/faker'
 
 test('Stock.etfOfNy', async () => {
   jest.spyOn(axios, 'get').mockResolvedValue(fakeListingStatusForLite)
-  const stocks = await Stock.etfOfNy()
+  const stocks = await Stock.allOfNyEtfs()
   const type = stocks.map((etf) => {
     return etf.assetType
   })
