@@ -1,16 +1,12 @@
+import {AlphaVantage} from "./api/alpha-vantage";
+
 export class Stock {
   public static async allOfNyEtfs(apiKey = 'demo') {
-    return [
-      {
-        id: 1,
-        symbol: 'Symbol',
-        name: 'Name',
-        exchange: 'exchange',
-        assetType: 'ETF',
-        ipoDate: 'ipoDate',
-        delistingDate: 'delistingDate',
-        status: 'status',
-      },
-    ]
+    const alphaVantage = new AlphaVantage(apiKey)
+    const listingStatus = await alphaVantage.getListingStatus()
+    // ETF を除外して企業情報だけにする
+    return listingStatus.filter((row) => {
+      return row.assetType === 'ETF'
+    })
   }
 }
