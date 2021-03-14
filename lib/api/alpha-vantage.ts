@@ -47,10 +47,10 @@ export class AlphaVantage {
   }
 
   private convertConstruction(res, keysTable) {
-    const metaData = this.convertKeys(res[keysTable.metaData.key], keysTable.metaData)
+    const metaData = this.convertKeys(res[keysTable.metaData.key], keysTable)
 
     const data = Object.keys(res[keysTable.data.key]).map((date) => {
-      const obj = this.convertKeys(res[keysTable.data.key][date], keysTable.data)
+      const obj = this.convertKeys(res[keysTable.data.key][date], keysTable)
       obj['date'] = date
       return obj
     })
@@ -61,14 +61,11 @@ export class AlphaVantage {
   }
 
   private convertKeys(object, keysTable) {
-    const response = {}
-    Object.entries(keysTable).forEach(([newKey, oldKey]) => {
-      if (typeof oldKey !== 'string' || newKey === 'key') {
-        return
-      }
-      response[newKey] = object[oldKey]
-    })
-    return response
+    return Object.fromEntries(
+      Object.entries(object).map(([key, value]) => {
+        return [keysTable[key], value]
+      })
+    )
   }
 
   private convertToObject(valueArray: any[], keysArray: string[]) {
@@ -146,6 +143,19 @@ export const KeysTableForGetTimeSeriesMonthlyAdjusted = {
     volume: '6. volume',
     dividendAmount: '7. dividend amount',
   },
+  'Meta Data': 'metaData',
+  '1. Information': 'information',
+  '2. Symbol': 'symbol',
+  '3. Last Refreshed': 'lastRefreshed',
+  '4. Time Zone': 'timeZone',
+  'Monthly Adjusted Time Series': 'data',
+  '1. open': 'open',
+  '4. close': 'close',
+  '5. adjusted close': 'adjustedClose',
+  '2. high': 'high',
+  '3. low': 'low',
+  '6. volume': 'volume',
+  '7. dividend amount': 'dividendAmount',
 }
 
 export interface ListingStatusResponse {
