@@ -9,7 +9,6 @@ const Wrapper = styled.div`
 
 interface Props {
   stocks: any[]
-  type: 'companies' | 'etf'
 }
 
 const StockList = (props: Props) => {
@@ -30,7 +29,7 @@ const StockList = (props: Props) => {
         rows={rows}
         columns={columns}
         onRowClick={async (param) => {
-          const path = `/${props.type}/${param.row.symbol}`
+          const path = `/stocks/${param.row.symbol}`
           await router.push(path)
         }}
       />

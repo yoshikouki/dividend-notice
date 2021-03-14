@@ -1,6 +1,6 @@
 import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
-import { AlphaVantage, AlphaVantageData, AlphaVantageResponse } from '../../lib/api/alpha-vantage'
+import { AlphaVantage, AlphaVantageResponse } from '../../lib/api/alpha-vantage'
 import { GetServerSideProps } from 'next'
 import { CompanyPageTitle } from '../../components/CompanyPageTitle'
 import { CompanyList } from '../../components/CompanyList'
@@ -9,7 +9,7 @@ interface Props {
   data: AlphaVantageResponse
 }
 
-const CompanyBySymbol = (props: Props) => {
+const MonthlyStockInformation = (props: Props) => {
   return (
     <DefaultLayout>
       <CompanyPageTitle metaData={props.data.metaData} />
@@ -28,4 +28,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default CompanyBySymbol
+export default MonthlyStockInformation

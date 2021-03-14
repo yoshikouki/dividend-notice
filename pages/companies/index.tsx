@@ -11,7 +11,7 @@ interface Props {
 const Companies = (props: Props) => {
   return (
     <DefaultLayout>
-      <StockList stocks={props.companies} type={'companies'} />
+      <StockList stocks={props.companies} />
     </DefaultLayout>
   )
 }

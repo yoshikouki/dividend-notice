@@ -11,7 +11,7 @@ interface Props {
 const Etf = (props: Props) => {
   return (
     <DefaultLayout>
-      <StockList stocks={props.companies} type={'etf'} />
+      <StockList stocks={props.companies} />
     </DefaultLayout>
   )
 }
