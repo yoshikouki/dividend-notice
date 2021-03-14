@@ -18,30 +18,7 @@ export class AlphaVantage {
       apikey: this.apiKey,
     }
     const res = await requestGet(this.url, params)
-
-    const metaData = res['Meta Data']
-    const data = res['Monthly Adjusted Time Series']
-    const convertedData: AlphaVantageResponse = {
-      metaData: {
-        information: metaData['1. Information'],
-        symbol: metaData['2. Symbol'],
-        lastRefreshed: metaData['3. Last Refreshed'],
-        timeZone: metaData['4. Time Zone'],
-      },
-      data: Object.keys(data).map((key) => {
-        return {
-          date: key,
-          open: data[key]['1. open'],
-          high: data[key]['2. high'],
-          low: data[key]['3. low'],
-          close: data[key]['4. close'],
-          adjustedClose: data[key]['5. adjusted close'],
-          volume: data[key]['6. volume'],
-          dividendAmount: data[key]['7. dividend amount'],
-        }
-      }),
-    }
-    return convertedData
+    return this.convertConstruction(res, KeysTableForGetTimeSeriesMonthlyAdjusted)
   }
 
   public async getListingStatus(date: string = null, state: string = null) {
@@ -67,6 +44,34 @@ export class AlphaVantage {
       csv = await requestGet(this.url, params)
     }
     return csv
+  }
+
+  private convertConstruction(res, keysTable) {
+    const metaData = {}
+
+    Object.entries(keysTable.metaData).forEach(([newKey, oldKey]) => {
+      if (typeof oldKey !== 'string' || newKey === 'key') {
+        return
+      }
+      metaData[newKey] = res[keysTable.metaData.key][oldKey]
+    })
+    const data = Object.keys(res[keysTable.data.key]).map((date) => {
+      const obj = {
+        date: date
+      }
+      Object.entries(keysTable.data).forEach(([newKey, oldKey]) => {
+        if (typeof oldKey !== 'string' || newKey === 'key') {
+          return
+        }
+        obj[newKey] = res[keysTable.data.key][date][oldKey]
+      })
+      return obj
+    })
+
+      return <AlphaVantageResponse>{
+      metaData: metaData,
+      data: data,
+    }
   }
 
   private convertToObject(valueArray: any[], keysArray: string[]) {
@@ -103,6 +108,26 @@ export interface AlphaVantageData {
   low: number
   volume: number
   dividendAmount?: number
+}
+
+interface GetTimeSeriesMonthlyAdjustedResponse {
+  'Meta Data': {
+    '1. Information': string
+    '2. Symbol': string
+    '3. Last Refreshed': string
+    '4. Time Zone': string
+  },
+  'Monthly Adjusted Time Series': {
+    string: {
+      '1. open': string
+      '2. high': string
+      '3. low': string
+      '4. close': string
+      '5. adjusted close': string
+      '6. volume': string
+      '7. dividend amount': string
+    },
+  }
 }
 
 export const KeysTableForGetTimeSeriesMonthlyAdjusted = {
