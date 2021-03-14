@@ -21,6 +21,7 @@ export class AlphaVantage {
     return this.convertConstruction(res, KeysTableForGetTimeSeriesMonthlyAdjusted)
   }
 
+  // Document : https://www.alphavantage.co/documentation/#listing-status
   public async getListingStatus(date: string = null, state: string = null) {
     const res = await this.fetchListingStatus()
     const csv = parser(res)
@@ -30,7 +31,6 @@ export class AlphaVantage {
     return objectList
   }
 
-  // Document : https://www.alphavantage.co/documentation/#listing-status
   private async fetchListingStatus() {
     const params = {
       function: 'LISTING_STATUS',
