@@ -47,31 +47,28 @@ export class AlphaVantage {
   }
 
   private convertConstruction(res, keysTable) {
-    const metaData = {}
+    const metaData = this.convertKeys(res[keysTable.metaData.key], keysTable.metaData)
 
-    Object.entries(keysTable.metaData).forEach(([newKey, oldKey]) => {
-      if (typeof oldKey !== 'string' || newKey === 'key') {
-        return
-      }
-      metaData[newKey] = res[keysTable.metaData.key][oldKey]
-    })
     const data = Object.keys(res[keysTable.data.key]).map((date) => {
-      const obj = {
-        date: date
-      }
-      Object.entries(keysTable.data).forEach(([newKey, oldKey]) => {
-        if (typeof oldKey !== 'string' || newKey === 'key') {
-          return
-        }
-        obj[newKey] = res[keysTable.data.key][date][oldKey]
-      })
+      const obj = this.convertKeys(res[keysTable.data.key][date], keysTable.data)
+      obj['date'] = date
       return obj
     })
-
       return <AlphaVantageResponse>{
       metaData: metaData,
       data: data,
     }
+  }
+
+  private convertKeys(object, keysTable) {
+    const response = {}
+    Object.entries(keysTable).forEach(([newKey, oldKey]) => {
+      if (typeof oldKey !== 'string' || newKey === 'key') {
+        return
+      }
+      response[newKey] = object[oldKey]
+    })
+    return response
   }
 
   private convertToObject(valueArray: any[], keysArray: string[]) {
