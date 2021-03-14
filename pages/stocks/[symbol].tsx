@@ -2,8 +2,8 @@ import React from 'react'
 import { DefaultLayout } from '../../layouts/Default'
 import { AlphaVantage, AlphaVantageResponse } from '../../lib/api/alpha-vantage'
 import { GetServerSideProps } from 'next'
-import { CompanyPageTitle } from '../../components/CompanyPageTitle'
-import { CompanyList } from '../../components/CompanyList'
+import { StockPageTitle } from '../../components/StockPageTitle'
+import { MonthlyStockInformationList } from "../../components/MonthlyStockInformationList";
 
 interface Props {
   data: AlphaVantageResponse
@@ -12,8 +12,8 @@ interface Props {
 const MonthlyStockInformation = (props: Props) => {
   return (
     <DefaultLayout>
-      <CompanyPageTitle metaData={props.data.metaData} />
-      <CompanyList data={props.data.data} />
+      <StockPageTitle metaData={props.data.metaData} />
+      <MonthlyStockInformationList data={props.data.data} />
     </DefaultLayout>
   )
 }
