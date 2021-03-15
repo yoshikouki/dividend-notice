@@ -5,7 +5,7 @@ interface Props {
   data: AlphaVantageData[]
 }
 
-export const DividendList = (props: Props) => {
+export const MonthlyStockInformationList = (props: Props) => {
   return (
     <div className="dividendList">
       <table>

@@ -9,7 +9,8 @@ const Home = () => {
       <Typography variant={'h2'}>
         Welcome to <a href="https://dividend-notice.net">Dividend Notice</a>
       </Typography>
-      <LinkButton title={'Dividend'} path={'/dividend'} />
+      <LinkButton title={'Companies'} path={'/companies'} />
+      <LinkButton title={'ETF'} path={'/etf'} />
     </DefaultLayout>
   )
 }

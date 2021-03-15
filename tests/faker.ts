@@ -55,7 +55,7 @@ export const fakeRequestGet = {
   },
 }
 
-export const fakeListingStatus = {
+export const fakeListingStatusForLite = {
   data: `symbol,name,exchange,assetType,ipoDate,delistingDate,status
 A,Agilent Technologies Inc,NYSE,Stock,1999-11-18,null,Active
 AA,Alcoa Corp,NYSE,Stock,2016-11-01,null,Active

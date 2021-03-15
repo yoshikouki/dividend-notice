@@ -1,5 +1,6 @@
 import { requestGet } from './core'
 import parser from 'csv-parse/lib/sync'
+import { fakeListingStatus } from '../../tests/data/fakeListingStatus'
 
 export class AlphaVantage {
   private url = 'https://www.alphavantage.co/query'
@@ -17,42 +18,69 @@ export class AlphaVantage {
       apikey: this.apiKey,
     }
     const res = await requestGet(this.url, params)
-
-    const metaData = res['Meta Data']
-    const data = res['Monthly Adjusted Time Series']
-    const convertedData: AlphaVantageResponse = {
-      metaData: {
-        information: metaData['1. Information'],
-        symbol: metaData['2. Symbol'],
-        lastRefreshed: metaData['3. Last Refreshed'],
-        timeZone: metaData['4. Time Zone'],
-      },
-      data: Object.keys(data).map((key) => {
-        return {
-          date: key,
-          open: data[key]['1. open'],
-          high: data[key]['2. high'],
-          low: data[key]['3. low'],
-          close: data[key]['4. close'],
-          adjustedClose: data[key]['5. adjusted close'],
-          volume: data[key]['6. volume'],
-          dividendAmount: data[key]['7. dividend amount'],
-        }
-      }),
-    }
-    return convertedData
+    return this.convertConstruction(res, KeysTableForGetTimeSeriesMonthlyAdjusted)
   }
 
   // Document : https://www.alphavantage.co/documentation/#listing-status
   public async getListingStatus(date: string = null, state: string = null) {
+    const res = await this.fetchListingStatus()
+    const csv = parser(res)
+    // CSV のヘッダー行をオブジェクトの key として使う
+    const objectKeys = csv.shift()
+    const objectList: ListingStatus[] = this.convertToObject(csv, objectKeys)
+    return objectList
+  }
+
+  private async fetchListingStatus() {
     const params = {
       function: 'LISTING_STATUS',
       apikey: this.apiKey,
     }
-    const csv = await requestGet(this.url, params)
+    // APIのアクセスに時間がかかるので開発では予めDLしたデータを使用する
+    let csv = ''
+    if (process.env.NODE_ENV === 'development') {
+      csv = fakeListingStatus.data
+    } else {
+      csv = await requestGet(this.url, params)
+    }
+    return csv
+  }
 
-    const data: ListingStatusData[] = parser(csv)
-    return data
+  private convertConstruction(res, keysTable) {
+    const metaData = this.convertKeys(res[keysTable.metaData.key], keysTable.metaData)
+
+    const data = Object.keys(res[keysTable.data.key]).map((date) => {
+      const obj = this.convertKeys(res[keysTable.data.key][date], keysTable.data)
+      obj['date'] = date
+      return obj
+    })
+    return <AlphaVantageResponse>{
+      metaData: metaData,
+      data: data,
+    }
+  }
+
+  private convertKeys(object, keysTable) {
+    const response = {}
+    Object.entries(keysTable).forEach(([newKey, oldKey]) => {
+      if (typeof oldKey !== 'string' || newKey === 'key') {
+        return
+      }
+      response[newKey] = object[oldKey]
+    })
+    return response
+  }
+
+  private convertToObject(valueArray: any[], keysArray: string[]) {
+    return valueArray.map((row, rowNumber) => {
+      const object = {
+        id: rowNumber + 1,
+      }
+      row.forEach((data, columnNumber) => {
+        object[keysArray[columnNumber]] = data
+      })
+      return object
+    })
   }
 }
 
@@ -79,9 +107,39 @@ export interface AlphaVantageData {
   dividendAmount?: number
 }
 
-export interface ListingStatusResponse {
-  metaData: AlphaVantageMetaData
-  data: ListingStatusData[]
+export const KeysTableForGetTimeSeriesMonthlyAdjusted = {
+  metaData: {
+    key: 'Meta Data',
+    information: '1. Information',
+    symbol: '2. Symbol',
+    lastRefreshed: '3. Last Refreshed',
+    timeZone: '4. Time Zone',
+  },
+  data: {
+    key: 'Monthly Adjusted Time Series',
+    date: /\d{4}-\d{2}-\d{2}/,
+    open: '1. open',
+    close: '4. close',
+    adjustedClose: '5. adjusted close',
+    high: '2. high',
+    low: '3. low',
+    volume: '6. volume',
+    dividendAmount: '7. dividend amount',
+  },
 }
 
-export type ListingStatusData = [string, string, string, string, string, string, string]
+export interface ListingStatusResponse {
+  metaData: AlphaVantageMetaData
+  data: [string, string, string, string, string, string, string][]
+}
+
+interface ListingStatus {
+  id: number
+  symbol?: string
+  name?: string
+  exchange?: string
+  assetType?: string
+  ipoDate?: string
+  delistingDate?: string
+  status?: string
+}
