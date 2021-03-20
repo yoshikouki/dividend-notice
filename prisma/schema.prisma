@@ -9,3 +9,7 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Stock {
+  id      Int      @default(autoincrement()) @id
+}
