@@ -5,7 +5,7 @@ db:
 	--name db \
 	-e POSTGRES_USER=$(POSTGRES_USER) \
 	-e POSTGRES_PASSWORD=$(PGPASSWORD) \
-	-p 5432:$(DB_PORT) \
+	-p $(DB_PORT):5432 \
 	postgres
 	npm run db-migrate
 
