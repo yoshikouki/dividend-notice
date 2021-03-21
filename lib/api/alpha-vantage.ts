@@ -137,7 +137,7 @@ export interface ListingStatusResponse {
   data: [string, string, string, string, string, string, string][]
 }
 
-interface ListingStatus {
+export interface ListingStatus {
   id: number
   symbol?: string
   name?: string
