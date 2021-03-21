@@ -3,7 +3,7 @@ import { DefaultLayout } from '../../layouts/Default'
 import { AlphaVantage, AlphaVantageResponse } from '../../lib/api/alpha-vantage'
 import { GetServerSideProps } from 'next'
 import { StockPageTitle } from '../../components/StockPageTitle'
-import { MonthlyStockInformationList } from "../../components/MonthlyStockInformationList";
+import { MonthlyStockInformationList } from '../../components/MonthlyStockInformationList'
 
 interface Props {
   data: AlphaVantageResponse

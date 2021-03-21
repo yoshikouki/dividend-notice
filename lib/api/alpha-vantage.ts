@@ -11,7 +11,7 @@ export class AlphaVantage {
   }
 
   // Document : https://www.alphavantage.co/documentation/#monthlyadj
-  public async getTimeSeriesMonthlyAdjusted(symbol) {
+  public async getTimeSeriesMonthlyAdjusted(symbol: string) {
     const params = {
       function: 'TIME_SERIES_MONTHLY_ADJUSTED',
       symbol: symbol,
@@ -19,16 +19,6 @@ export class AlphaVantage {
     }
     const res = await requestGet(this.url, params)
     return this.convertConstruction(res, KeysTableForGetTimeSeriesMonthlyAdjusted)
-  }
-
-  // Document : https://www.alphavantage.co/documentation/#listing-status
-  public async getListingStatus(date: string = null, state: string = null) {
-    const res = await this.fetchListingStatus()
-    const csv = parser(res)
-    // CSV のヘッダー行をオブジェクトの key として使う
-    const objectKeys = csv.shift()
-    const objectList: ListingStatus[] = this.convertToObject(csv, objectKeys)
-    return objectList
   }
 
   private async fetchListingStatus() {
@@ -46,7 +36,7 @@ export class AlphaVantage {
     return csv
   }
 
-  private convertConstruction(res, keysTable) {
+  private convertConstruction(res: StringKeyObject, keysTable: StringKeyObject) {
     const metaData = this.convertKeys(res[keysTable.metaData.key], keysTable.metaData)
 
     const data = Object.keys(res[keysTable.data.key]).map((date) => {
@@ -60,8 +50,8 @@ export class AlphaVantage {
     }
   }
 
-  private convertKeys(object, keysTable) {
-    const response = {}
+  private convertKeys(object: StringKeyObject, keysTable: StringKeyObject) {
+    const response: StringKeyObject = {}
     Object.entries(keysTable).forEach(([newKey, oldKey]) => {
       if (typeof oldKey !== 'string' || newKey === 'key') {
         return
@@ -71,17 +61,31 @@ export class AlphaVantage {
     return response
   }
 
+  // Document : https://www.alphavantage.co/documentation/#listing-status
+  public async getListingStatus() {
+    const res = await this.fetchListingStatus()
+    const csv = parser(res)
+    // CSV のヘッダー行をオブジェクトの key として使う
+    const objectKeys = csv.shift()
+    const objectList = this.convertToObject(csv, objectKeys)
+    return objectList
+  }
+
   private convertToObject(valueArray: any[], keysArray: string[]) {
     return valueArray.map((row, rowNumber) => {
-      const object = {
+      const object: StringKeyObject = {
         id: rowNumber + 1,
       }
-      row.forEach((data, columnNumber) => {
+      row.forEach((data: string, columnNumber: number) => {
         object[keysArray[columnNumber]] = data
       })
       return object
     })
   }
+}
+
+export interface StringKeyObject {
+  [key: string]: any
 }
 
 export interface AlphaVantageResponse {
