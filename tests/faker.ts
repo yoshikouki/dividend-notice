@@ -1,4 +1,6 @@
-export const fakeForGetTimeSeriesMonthlyAdjusted = {
+import { StringKeyObject } from '../lib/api/alpha-vantage'
+
+export const fakeForGetTimeSeriesMonthlyAdjusted: StringKeyObject = {
   data: {
     'Meta Data': {
       '1. Information': 'Monthly Adjusted Prices and Volumes',
