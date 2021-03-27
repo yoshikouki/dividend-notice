@@ -9,12 +9,10 @@ interface Data {
   updatedRows: ListingStatus
 }
 
-export default function updateAllStocks(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function updateAllStocks(req: NextApiRequest, res: NextApiResponse<Data>) {
   // CSV を取得する
-  // const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
-  // const listingStatus = await alphaVantage.getListingStatus()
-  const listingStatus = parser(fakeListingStatusForLite.data)
-  const header = listingStatus.shift()
+  const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
+  const listingStatus = await alphaVantage.getListingStatus()
 
   // DBに登録
   const prisma = new PrismaClient()
