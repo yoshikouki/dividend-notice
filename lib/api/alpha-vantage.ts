@@ -74,7 +74,7 @@ export class AlphaVantage {
   private convertToObject(valueArray: any[], keysArray: string[]) {
     return valueArray.map((row, rowNumber) => {
       const object: StringKeyObject = {
-        id: rowNumber + 1,
+        id: rowNumber,
       }
       row.forEach((data: string, columnNumber: number) => {
         object[keysArray[columnNumber]] = data
