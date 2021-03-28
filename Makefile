@@ -7,7 +7,7 @@ db:
 	-e POSTGRES_PASSWORD=$(PGPASSWORD) \
 	-p $(DB_PORT):5432 \
 	postgres
-	npm run db-migrate
+	npm run migrate
 
 db_stop:
 	docker stop db
