@@ -9,13 +9,13 @@ services:
     container_name: dividend-notice.net
     ports:
     - "3000:3000"
-    command: "npm run dev"
+    command: "npm run migrate"
     networks:
       - public
       - private
     depends_on:
       - db
-    restart: always
+#    restart: always
   db:
     image: "postgres"
     container_name: db.dividend-notice.net
@@ -26,7 +26,7 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
     networks:
       - public
-    restart: always
+#    restart: always
 
 networks:
   public:
