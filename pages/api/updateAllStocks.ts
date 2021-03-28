@@ -1,7 +1,5 @@
 import {AlphaVantage, ListingStatus} from "../../lib/api/alpha-vantage"
-import parser from "csv-parse/lib/sync";
 import { PrismaClient } from '@prisma/client'
-import { fakeListingStatusForLite } from "../../tests/faker"
 import {NextApiRequest, NextApiResponse} from "next";
 
 interface Data {
@@ -16,7 +14,38 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // DBに登録
   const prisma = new PrismaClient()
-  const updatedRows = listingStatus.length
+
+  await prisma.stock.create({
+    data: {
+      status: listingStatus[0].status,
+      symbol: listingStatus[0].symbol,
+      name: listingStatus[0].name,
+      exchange: listingStatus[0].exchange,
+      assetType: listingStatus[0].assetType,
+      ipoDate: listingStatus[0].ipoDate,
+      delistingDate: listingStatus[0].delistingDate,
+    },
+  })
+  // Promise.all(
+  //   listingStatus.map(async (stock) => {
+  //     await prisma.stock.create({
+  //       data: {
+  //         status: stock.status,
+  //         symbol: stock.symbol,
+  //         name: stock.name,
+  //         exchange: stock.exchange,
+  //         assetType: stock.assetType,
+  //         ipoDate: stock.ipoDate,
+  //         delistingDate: stock.delistingDate,
+  //       },
+  //     })
+  //   })
+  // )
+    .then((values) => {
+      console.log(values.length)
+    })
+
+  let updatedRows = await prisma.stock.count()
 
   const response: Data = {
     updatedLength: updatedRows,
