@@ -9,7 +9,7 @@ services:
     container_name: dividend-notice.net
     ports:
     - "3000:3000"
-    command: "npm run migrate"
+    command: "npm run dev"
     networks:
       - public
       - private
