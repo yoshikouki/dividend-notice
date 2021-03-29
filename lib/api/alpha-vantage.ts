@@ -65,22 +65,18 @@ export class AlphaVantage {
   public async getListingStatus() {
     const res = await this.fetchListingStatus()
     const csv = parser(res)
-    // CSV のヘッダー行をオブジェクトの key として使う
-    const objectKeys = csv.shift()
-    const objectList = this.convertToObject(csv, objectKeys)
-    return objectList
-  }
-
-  private convertToObject(valueArray: any[], keysArray: string[]) {
-    return valueArray.map((row, rowNumber) => {
-      const object: StringKeyObject = {
+    // CSV のヘッダー行を key としてオブジェクトへの変換を行う
+    const objectKeys: ListingStatusColumn = csv.shift()
+    const objectList = csv.map((row: string[], rowNumber: number) => {
+      const object: ListingStatus = {
         id: rowNumber,
       }
       row.forEach((data: string, columnNumber: number) => {
-        object[keysArray[columnNumber]] = data
+        object[objectKeys[columnNumber]] = data
       })
       return object
     })
+    return objectList
   }
 }
 
@@ -147,3 +143,13 @@ export interface ListingStatus {
   delistingDate?: string
   status?: string
 }
+
+type ListingStatusColumn = [
+  'symbol',
+  'name',
+  'exchange',
+  'assetType',
+  'ipoDate',
+  'delistingDate',
+  'status',
+]
