@@ -13,10 +13,11 @@ generator client {
 model Stock {
   id      Int      @default(autoincrement()) @id
   status  String
-  symbol  String
+  symbol  String  @unique
   name    String
   exchange  String
   assetType String
   ipoDate   DateTime
-  delistingDate   DateTime
+  delistingDate   DateTime?
+  createdAt DateTime @default(now())
 }
