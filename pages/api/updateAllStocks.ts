@@ -26,6 +26,9 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
       delistingDate: listingStatus[0].delistingDate,
     },
   })
+  .then((values) => {
+    console.log(values.symbol)
+  })
   // Promise.all(
   //   listingStatus.map(async (stock) => {
   //     await prisma.stock.create({
@@ -41,9 +44,9 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
   //     })
   //   })
   // )
-    .then((values) => {
-      console.log(values.length)
-    })
+  //   .then((values) => {
+  //     console.log(values.length)
+  //   })
 
   let updatedRows = await prisma.stock.count()
 
