@@ -14,7 +14,6 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // DBに登録
   const prisma = new PrismaClient()
-
   await prisma.stock.create({
     data: {
       status: listingStatus[0].status,
