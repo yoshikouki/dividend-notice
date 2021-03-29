@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev\n",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "test": "jest",
@@ -12,7 +12,7 @@
     "eslint": "eslint ./**/*.ts ./**/*.tsx",
     "lint": "run-s fmt:all eslint",
     "ci": "run-s lint test",
-    "db-migrate": "npx prisma migrate dev --name init --preview-feature"
+    "migrate": "npx prisma migrate dev --name init --preview-feature"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -25,6 +25,7 @@
     "csv-parse": "^4.15.3",
     "next": "10.0.6",
     "npm-run-all": "^4.1.5",
+    "prisma": "^2.19.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "styled-components": "^5.2.1"
@@ -33,6 +34,7 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.27",
     "@types/react": "^17.0.2",
+    "@types/styled-components": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "eslint": "^7.20.0",

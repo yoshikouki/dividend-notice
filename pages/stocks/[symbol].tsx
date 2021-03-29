@@ -4,6 +4,7 @@ import { AlphaVantage, AlphaVantageResponse } from '../../lib/api/alpha-vantage'
 import { GetServerSideProps } from 'next'
 import { StockPageTitle } from '../../components/StockPageTitle'
 import { MonthlyStockInformationList } from '../../components/MonthlyStockInformationList'
+import { ParsedUrlQuery } from 'querystring'
 
 interface Props {
   data: AlphaVantageResponse
@@ -18,9 +19,14 @@ const MonthlyStockInformation = (props: Props) => {
   )
 }
 
+interface Params extends ParsedUrlQuery {
+  symbol: string
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
-  const data = await alphaVantage.getTimeSeriesMonthlyAdjusted(context.params.symbol)
+  const params = context.params as Params
+  const data = await alphaVantage.getTimeSeriesMonthlyAdjusted(params.symbol)
   return {
     props: {
       data: data,

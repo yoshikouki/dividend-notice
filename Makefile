@@ -1,20 +1,16 @@
 include .env
 
-db:
-	docker run  --rm -itd \
-	--name db \
-	-e POSTGRES_USER=$(POSTGRES_USER) \
-	-e POSTGRES_PASSWORD=$(PGPASSWORD) \
-	-p $(DB_PORT):5432 \
-	postgres
-	npm run db-migrate
+init:
+	docker-compose build
 
-db_stop:
-	docker stop db
+dev:
+	docker-compose up -d
+	docker-compose exec app npm run migrate
+	docker-compose logs -f
 
-db_restart:
-	@$(MAKE) db_stop
-	@$(MAKE) db
+stop:
+	docker-compose stop
 
-db_connect:
-	PGPASSWORD=$(PGPASSWORD) psql -h localhost -p $(DB_PORT) -U $(POSTGRES_USER)
+restart:
+	@$(MAKE) stop
+	@$(MAKE) dev
