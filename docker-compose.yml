@@ -8,7 +8,7 @@ services:
         - NODE_ENV=development
     container_name: dividend-notice.net
     ports:
-    - "3000:3000"
+      - "3000:3000"
     command: "npm run dev"
     networks:
       - public
@@ -22,7 +22,7 @@ services:
       dockerfile: db.Dockerfile
     container_name: db.dividend-notice.net
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
