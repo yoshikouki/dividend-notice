@@ -12,7 +12,7 @@
     "eslint": "eslint ./**/*.ts ./**/*.tsx",
     "lint": "run-s fmt:all eslint",
     "ci": "run-s lint test",
-    "migrate": "npx prisma migrate dev --preview-feature"
+    "migrate": "npx prisma migrate dev"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
