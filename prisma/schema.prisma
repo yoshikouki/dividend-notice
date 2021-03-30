@@ -13,7 +13,7 @@ generator client {
 model Stock {
   id      Int      @default(autoincrement()) @id
   status  String
-  symbol  String  @unique
+  symbol  String
   name    String
   exchange  String
   assetType String
