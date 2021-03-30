@@ -15,18 +15,20 @@ services:
       - private
     depends_on:
       - db
-#    restart: always
+
   db:
-    image: "postgres"
+    build:
+      context: ./
+      dockerfile: db.Dockerfile
     container_name: db.dividend-notice.net
     ports:
     - "5432:5432"
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      TZ: "Asia/Tokyo"
     networks:
-      - public
-#    restart: always
+      - private
 
 networks:
   public:
