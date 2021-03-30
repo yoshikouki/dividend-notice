@@ -9,7 +9,7 @@ dev:
 	docker-compose logs -f
 
 stop:
-	docker-compose stop
+	docker-compose down
 
 restart:
 	@$(MAKE) stop

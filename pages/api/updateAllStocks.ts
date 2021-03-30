@@ -14,6 +14,7 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // DBに登録
   const prisma = new PrismaClient()
+  const delistingDate: Date | null = listingStatus[0].delistingDate  === 'null' ? null : new Date(listingStatus[0].delistingDate)
   await prisma.stock.create({
     data: {
       status: listingStatus[0].status,
@@ -21,8 +22,8 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
       name: listingStatus[0].name,
       exchange: listingStatus[0].exchange,
       assetType: listingStatus[0].assetType,
-      ipoDate: listingStatus[0].ipoDate,
-      delistingDate: listingStatus[0].delistingDate,
+      ipoDate: new Date(listingStatus[0].ipoDate),
+      delistingDate: delistingDate,
     },
   })
   .then((values) => {
