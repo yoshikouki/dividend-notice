@@ -1,6 +1,6 @@
-import {AlphaVantage, ListingStatus} from "../../lib/api/alpha-vantage"
+import { AlphaVantage, ListingStatus } from '../../lib/api/alpha-vantage'
 import { PrismaClient } from '@prisma/client'
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from 'next'
 
 interface Data {
   updatedLength: number
@@ -16,7 +16,7 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
   const prisma = new PrismaClient()
   Promise.all(
     listingStatus.map(async (stock: ListingStatus) => {
-      const delistingDate: Date | null = stock.delistingDate  === 'null' ? null : new Date(stock.delistingDate!)
+      const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
       await prisma.stock.create({
         data: {
           status: stock.status!,
@@ -28,11 +28,10 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
           delistingDate: delistingDate,
         },
       })
-    })
-  )
-    .then((values) => {
-      console.log(values.length)
-    })
+    }),
+  ).then((values) => {
+    console.log(values.length)
+  })
 
   let updatedCount = await prisma.stock.count()
   const updatedRows = await prisma.stock.findMany()

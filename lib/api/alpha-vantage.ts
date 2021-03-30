@@ -144,12 +144,4 @@ export interface ListingStatus {
   status?: string
 }
 
-type ListingStatusColumn = [
-  'symbol',
-  'name',
-  'exchange',
-  'assetType',
-  'ipoDate',
-  'delistingDate',
-  'status',
-]
+type ListingStatusColumn = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
