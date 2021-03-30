@@ -4,7 +4,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 
 interface Data {
   updatedLength: number
-  updatedRows: ListingStatus
+  updatedRows: any
 }
 
 export default async function updateAllStocks(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -14,45 +14,32 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // DBに登録
   const prisma = new PrismaClient()
-  const delistingDate: Date | null = listingStatus[0].delistingDate  === 'null' ? null : new Date(listingStatus[0].delistingDate)
-  await prisma.stock.create({
-    data: {
-      status: listingStatus[0].status,
-      symbol: listingStatus[0].symbol,
-      name: listingStatus[0].name,
-      exchange: listingStatus[0].exchange,
-      assetType: listingStatus[0].assetType,
-      ipoDate: new Date(listingStatus[0].ipoDate),
-      delistingDate: delistingDate,
-    },
-  })
-  .then((values) => {
-    console.log(values.symbol)
-  })
-  // Promise.all(
-  //   listingStatus.map(async (stock) => {
-  //     await prisma.stock.create({
-  //       data: {
-  //         status: stock.status,
-  //         symbol: stock.symbol,
-  //         name: stock.name,
-  //         exchange: stock.exchange,
-  //         assetType: stock.assetType,
-  //         ipoDate: stock.ipoDate,
-  //         delistingDate: stock.delistingDate,
-  //       },
-  //     })
-  //   })
-  // )
-  //   .then((values) => {
-  //     console.log(values.length)
-  //   })
+  Promise.all(
+    listingStatus.map(async (stock: ListingStatus) => {
+      const delistingDate: Date | null = stock.delistingDate  === 'null' ? null : new Date(stock.delistingDate!)
+      await prisma.stock.create({
+        data: {
+          status: stock.status!,
+          symbol: stock.symbol!,
+          name: stock.name!,
+          exchange: stock.exchange!,
+          assetType: stock.assetType!,
+          ipoDate: new Date(stock.ipoDate!),
+          delistingDate: delistingDate,
+        },
+      })
+    })
+  )
+    .then((values) => {
+      console.log(values.length)
+    })
 
-  let updatedRows = await prisma.stock.count()
+  let updatedCount = await prisma.stock.count()
+  const updatedRows = await prisma.stock.findMany()
 
   const response: Data = {
-    updatedLength: updatedRows,
-    updatedRows: listingStatus,
+    updatedLength: updatedCount,
+    updatedRows: updatedRows,
   }
   res.status(200).json(response)
 }
