@@ -15,6 +15,8 @@ services:
       - private
     depends_on:
       - db
+    volumes:
+      - .:/app
 
   db:
     build:
@@ -29,6 +31,8 @@ services:
       TZ: "Asia/Tokyo"
     networks:
       - private
+    volumes:
+      - .:/app
 
 networks:
   public:
