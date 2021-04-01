@@ -17,7 +17,7 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
   const prisma = new PrismaClient()
   let updatedCount = 0
   Promise.all(
-    listingStatus.map(async (stock: ListingStatus) => {
+    listingStatus.map( async (stock: ListingStatus) => {
       const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
       await prisma.stock.create({
         data: {

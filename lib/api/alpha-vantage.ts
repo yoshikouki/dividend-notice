@@ -62,7 +62,7 @@ export class AlphaVantage {
   }
 
   // Document : https://www.alphavantage.co/documentation/#listing-status
-  public async getListingStatus() {
+  public async getListingStatus(): Promise<ListingStatus[]> {
     const res = await this.fetchListingStatus()
     const csv = parser(res)
     // CSV のヘッダー行を key としてオブジェクトへの変換を行う
