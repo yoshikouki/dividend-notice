@@ -2,6 +2,7 @@
   "name": "dividend-notice",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
@@ -13,7 +14,7 @@
     "lint": "run-s fmt:all eslint",
     "ci": "run-s lint test",
     "migrate": "npx prisma migrate dev",
-    "db:init": "ts-node ./bin/initStocks.ts"
+    "db:init": "node --loader ts-node/esm ./bin/initStocks.ts"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
