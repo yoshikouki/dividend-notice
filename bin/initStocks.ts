@@ -1,5 +1,5 @@
-import {AlphaVantage, ListingStatus} from "../lib/api/alpha-vantage";
-import {PrismaClient} from "@prisma/client";
+import { AlphaVantage, ListingStatus } from '../lib/api/alpha-vantage'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -15,7 +15,7 @@ const main = async () => {
   // DBに登録
   let createdCount = 0
   Promise.all(
-    listingStatus.map( async (stock: ListingStatus) => {
+    listingStatus.map(async (stock: ListingStatus) => {
       const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
       await prisma.stock.create({
         data: {
@@ -28,7 +28,7 @@ const main = async () => {
           delistingDate: delistingDate,
         },
       })
-      createdCount ++
+      createdCount++
     }),
   ).then((values) => {
     console.log(`Initialize Stocks table. Create ${createdCount} records`)
@@ -39,9 +39,9 @@ const main = async () => {
 }
 
 main()
-  .catch(err => {
+  .catch((err) => {
     throw Error('"initStock" had anything Error!!1')
   })
-  .finally( async () => {
+  .finally(async () => {
     await prisma.$disconnect()
   })
