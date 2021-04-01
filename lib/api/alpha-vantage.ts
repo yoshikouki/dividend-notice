@@ -69,7 +69,7 @@ export class AlphaVantage {
     const objectKeys: ListingStatusColumn = csv.shift()
     const objectList = csv.map((row: string[], rowNumber: number) => {
       const object: ListingStatus = {
-        id: rowNumber,
+        id: rowNumber + 1,
       }
       row.forEach((data: string, columnNumber: number) => {
         object[objectKeys[columnNumber]] = data
