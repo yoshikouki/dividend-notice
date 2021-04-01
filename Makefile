@@ -5,7 +5,7 @@ init:
 
 dev:
 	docker-compose up -d
-	@$(MAKE) migrate
+	$(MAKE) migrate
 	docker-compose logs -f
 
 migrate:
@@ -15,5 +15,5 @@ stop:
 	docker-compose stop
 
 restart:
-	@$(MAKE) stop
-	@$(MAKE) dev
+	$(MAKE) stop
+	$(MAKE) dev
