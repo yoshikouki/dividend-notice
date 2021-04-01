@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 interface Data {
+  allStocksCount: number
   updatedLength: number
   updatedRows: any
 }
@@ -14,6 +15,7 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // DBに登録
   const prisma = new PrismaClient()
+  let updatedCount = 0
   Promise.all(
     listingStatus.map(async (stock: ListingStatus) => {
       const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
@@ -28,15 +30,17 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
           delistingDate: delistingDate,
         },
       })
+      updatedCount ++
     }),
   ).then((values) => {
     console.log(values.length)
   })
 
-  let updatedCount = await prisma.stock.count()
   const updatedRows = await prisma.stock.findMany()
+  const allStocksCount = await prisma.stock.count()
 
   const response: Data = {
+    allStocksCount: allStocksCount,
     updatedLength: updatedCount,
     updatedRows: updatedRows,
   }
