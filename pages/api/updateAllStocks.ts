@@ -16,25 +16,25 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
   // DBに登録
   const prisma = new PrismaClient()
   let updatedCount = 0
-  Promise.all(
-    listingStatus.map( async (stock: ListingStatus) => {
-      const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
-      await prisma.stock.create({
-        data: {
-          status: stock.status!,
-          symbol: stock.symbol!,
-          name: stock.name!,
-          exchange: stock.exchange!,
-          assetType: stock.assetType!,
-          ipoDate: new Date(stock.ipoDate!),
-          delistingDate: delistingDate,
-        },
-      })
-      updatedCount ++
-    }),
-  ).then((values) => {
-    console.log(values.length)
-  })
+  // Promise.all(
+  //   listingStatus.map( async (stock: ListingStatus) => {
+  //     const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
+  //     await prisma.stock.create({
+  //       data: {
+  //         status: stock.status!,
+  //         symbol: stock.symbol!,
+  //         name: stock.name!,
+  //         exchange: stock.exchange!,
+  //         assetType: stock.assetType!,
+  //         ipoDate: new Date(stock.ipoDate!),
+  //         delistingDate: delistingDate,
+  //       },
+  //     })
+  //     updatedCount ++
+  //   }),
+  // ).then((values) => {
+  //   console.log(values.length)
+  // })
 
   const updatedRows = await prisma.stock.findMany()
   const allStocksCount = await prisma.stock.count()
