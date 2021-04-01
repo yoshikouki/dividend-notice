@@ -5,12 +5,15 @@ init:
 
 dev:
 	docker-compose up -d
-	docker-compose exec app npm run migrate
+	$(MAKE) migrate
 	docker-compose logs -f
+
+migrate:
+	docker-compose exec app npm run migrate
 
 stop:
 	docker-compose stop
 
 restart:
-	@$(MAKE) stop
-	@$(MAKE) dev
+	$(MAKE) stop
+	$(MAKE) dev
