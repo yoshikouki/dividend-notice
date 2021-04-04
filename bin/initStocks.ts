@@ -32,11 +32,15 @@ const main = async () => {
       createdCount++
     }),
   ).then((values) => {
-    console.log(`Initialize Stocks table. Create ${createdCount} records`)
+    console.log(`Create ${createdCount} Stocks. Now, All Stocks count is ${allStocksCount}.`)
   })
+    .catch((err) => {
+      console.error(`Prisma create has Error. It created ${createdCount} records.`);
+      return false
+    })
 
   const allStocksCount = await prisma.stock.count()
-  console.log(`Create ${createdCount} Stocks. Now, All Stocks count is ${allStocksCount}.`)
+  console.log(`Initialize Stocks table. Create ${createdCount} records`)
 }
 
 main()
