@@ -4,17 +4,17 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export const toDataForDatabase = (object: ListingStatus) => {
-  const delistingDate: Date | null = object.delistingDate === 'null' ? null : new Date(object.delistingDate!)
-  const data = {
+  const ipoDate = new Date(object.ipoDate!)
+  const delistingDate = object.delistingDate === 'null' ? null : new Date(object.delistingDate!)
+  return {
     status: object.status!,
     symbol: object.symbol!,
     name: object.name!,
     exchange: object.exchange!,
     assetType: object.assetType!,
-    ipoDate: new Date(object.ipoDate!),
+    ipoDate: ipoDate,
     delistingDate: delistingDate,
   }
-  return data
 }
 
 const main = async () => {
