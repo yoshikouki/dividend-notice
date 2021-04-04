@@ -6,7 +6,8 @@ const prisma = new PrismaClient()
 const main = async () => {
   const stocksCount = await prisma.stock.count()
   if (stocksCount !== 0) {
-    throw Error(`Stocks was initialized. Stocks has ${stocksCount} records.`)
+    console.error(`Stocks was initialized. Stocks has ${stocksCount} records`);
+    return false
   }
 
   const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
