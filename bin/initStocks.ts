@@ -3,20 +3,6 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const toDataForDatabase = (object: ListingStatus) => {
-  const ipoDate = new Date(object.ipoDate!)
-  const delistingDate = object.delistingDate === 'null' ? null : new Date(object.delistingDate!)
-  return {
-    status: object.status!,
-    symbol: object.symbol!,
-    name: object.name!,
-    exchange: object.exchange!,
-    assetType: object.assetType!,
-    ipoDate: ipoDate,
-    delistingDate: delistingDate,
-  }
-}
-
 const main = async () => {
   const stocksCount = await prisma.stock.count()
   if (stocksCount !== 0) {
@@ -31,7 +17,15 @@ const main = async () => {
   let createdCount = 0
   Promise.all(
     listingStatus.map(async (stock: ListingStatus) => {
-      const data = toDataForDatabase(stock)
+      const data = {
+        status: stock.status!,
+        symbol: stock.symbol!,
+        name: stock.name!,
+        exchange: stock.exchange!,
+        assetType: stock.assetType!,
+        ipoDate: stock.ipoDate!,
+        delistingDate: stock.delistingDate!,
+      }
       await prisma.stock.create({ data: data })
       createdCount++
     }),

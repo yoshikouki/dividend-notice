@@ -68,15 +68,30 @@ export class AlphaVantage {
     // CSV のヘッダー行を key としてオブジェクトへの変換を行う
     const objectKeys: ListingStatusColumn = csv.shift()
     const objectList = csv.map((row: string[], rowNumber: number) => {
-      const object: ListingStatus = {
-        id: rowNumber + 1,
-      }
-      row.forEach((data: string, columnNumber: number) => {
-        object[objectKeys[columnNumber]] = data
-      })
-      return object
+      return this.toListingStatusObject(row, objectKeys, rowNumber)
     })
     return objectList
+  }
+
+  public toListingStatusObject(values: string[], keys: ListingStatusColumn, index: number) {
+    const object: ListingStatus = {
+      id: index + 1,
+    }
+    values.forEach((data: string, columnNumber: number) => {
+      const key = keys[columnNumber]
+      switch (key) {
+        case 'ipoDate':
+          object[key] = new Date(data)
+          break
+        case 'delistingDate':
+          object[key] = data === 'null' ? null : new Date(data)
+          break
+        default:
+          object[key] = data
+          break
+      }
+    })
+    return object
   }
 }
 
@@ -139,9 +154,9 @@ export interface ListingStatus {
   name?: string
   exchange?: string
   assetType?: string
-  ipoDate?: string
-  delistingDate?: string
+  ipoDate?: Date
+  delistingDate?: Date | null
   status?: string
 }
 
-type ListingStatusColumn = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
+export type ListingStatusColumn = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']

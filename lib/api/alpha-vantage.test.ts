@@ -1,4 +1,4 @@
-import { AlphaVantage, KeysTableForGetTimeSeriesMonthlyAdjusted } from './alpha-vantage'
+import { AlphaVantage, KeysTableForGetTimeSeriesMonthlyAdjusted, ListingStatusColumn } from './alpha-vantage'
 import axios from 'axios'
 import { fakeForGetTimeSeriesMonthlyAdjusted, fakeListingStatusForLite } from '../../tests/faker'
 import parser from 'csv-parse/lib/sync'
@@ -49,10 +49,30 @@ describe('企業・ETF一覧の取得', () => {
       name: firstRow[1],
       exchange: firstRow[2],
       assetType: firstRow[3],
-      ipoDate: firstRow[4],
-      delistingDate: firstRow[5],
+      ipoDate: new Date(firstRow[4]),
+      delistingDate: firstRow[5] === 'null' ? null : new Date(firstRow[5]),
       status: firstRow[6],
     }
     expect(listingStatus[0]).toStrictEqual(expected)
+  })
+
+  test('#toDateForDatabase', () => {
+    const ipoDate = '1999-11-18'
+    const delistingDate = 'null'
+    const values = ['A', 'Agilent Technologies Inc', 'NYSE', 'Stock', ipoDate, delistingDate, 'Active']
+    const keys: ListingStatusColumn = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
+    const expectData = {
+      id: 1,
+      status: 'Active',
+      symbol: 'A',
+      name: 'Agilent Technologies Inc',
+      exchange: 'NYSE',
+      assetType: 'Stock',
+      ipoDate: new Date(ipoDate),
+      delistingDate: null,
+    }
+    const alphaVantage = new AlphaVantage()
+    const object = alphaVantage.toListingStatusObject(values, keys, 0)
+    expect(object).toStrictEqual(expectData)
   })
 })
