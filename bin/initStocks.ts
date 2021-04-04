@@ -17,18 +17,8 @@ const main = async () => {
   let createdCount = 0
   Promise.all(
     listingStatus.map(async (stock: ListingStatus) => {
-      const delistingDate: Date | null = stock.delistingDate === 'null' ? null : new Date(stock.delistingDate!)
-      await prisma.stock.create({
-        data: {
-          status: stock.status!,
-          symbol: stock.symbol!,
-          name: stock.name!,
-          exchange: stock.exchange!,
-          assetType: stock.assetType!,
-          ipoDate: new Date(stock.ipoDate!),
-          delistingDate: delistingDate,
-        },
-      })
+      const data = toDataForDatabase(stock)
+      await prisma.stock.create({data: data,})
       createdCount++
     }),
   ).then((values) => {
@@ -41,6 +31,20 @@ const main = async () => {
 
   const allStocksCount = await prisma.stock.count()
   console.log(`Initialize Stocks table. Create ${createdCount} records`)
+}
+
+export const toDataForDatabase = (object: ListingStatus) => {
+  const delistingDate: Date | null = object.delistingDate === 'null' ? null : new Date(object.delistingDate!)
+  const data = {
+    status: object.status!,
+    symbol: object.symbol!,
+    name: object.name!,
+    exchange: object.exchange!,
+    assetType: object.assetType!,
+    ipoDate: new Date(object.ipoDate!),
+    delistingDate: delistingDate,
+  }
+  return data
 }
 
 main()
