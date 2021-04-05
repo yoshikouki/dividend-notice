@@ -74,23 +74,28 @@ export class AlphaVantage {
   }
 
   public toListingStatusObject(values: string[], keys: ListingStatusColumn, index: number) {
+    const keysIndex = {
+      symbol: keys.indexOf('symbol'),
+      name: keys.indexOf('name'),
+      exchange: keys.indexOf('exchange'),
+      assetType: keys.indexOf('assetType'),
+      ipoDate: keys.indexOf('ipoDate'),
+      delistingDate: keys.indexOf('delistingDate'),
+      status: keys.indexOf('status'),
+    }
+
+    const ipoDate = new Date(values[keysIndex.ipoDate])
+    const delistingDate = values[keysIndex.delistingDate] === 'null' ? null : new Date(values[keysIndex.delistingDate])
     const object: ListingStatus = {
       id: index + 1,
+      symbol: values[keysIndex.symbol],
+      name: values[keysIndex.name],
+      exchange: values[keysIndex.exchange],
+      assetType: values[keysIndex.assetType],
+      ipoDate: ipoDate,
+      delistingDate: delistingDate,
+      status: values[keysIndex.status],
     }
-    values.forEach((data: string, columnNumber: number) => {
-      const key = keys[columnNumber]
-      switch (key) {
-        case 'ipoDate':
-          object[key] = new Date(data)
-          break
-        case 'delistingDate':
-          object[key] = data === 'null' ? null : new Date(data)
-          break
-        default:
-          object[key] = data
-          break
-      }
-    })
     return object
   }
 }
@@ -150,13 +155,13 @@ export interface ListingStatusResponse {
 
 export interface ListingStatus {
   id: number
-  symbol?: string
-  name?: string
-  exchange?: string
-  assetType?: string
-  ipoDate?: Date
-  delistingDate?: Date | null
-  status?: string
+  symbol: string
+  name: string
+  exchange: string
+  assetType: string
+  ipoDate: Date
+  delistingDate: Date | null
+  status: string
 }
 
 export type ListingStatusColumn = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']
