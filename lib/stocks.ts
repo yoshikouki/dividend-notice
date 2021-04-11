@@ -1,12 +1,13 @@
-import { AlphaVantage } from './api/alpha-vantage'
+import { PrismaClient, Stock as StockType } from '@prisma/client'
 
 export class Stock {
-  public static async allOfNyEtfs(apiKey = 'demo') {
-    const alphaVantage = new AlphaVantage(apiKey)
-    const listingStatus = await alphaVantage.getListingStatus()
-    // ETF を除外して企業情報だけにする
-    return listingStatus.filter((row) => {
-      return row.assetType === 'ETF'
+  public static async allOfNyEtfs() {
+    const prisma = new PrismaClient()
+    const etfs: StockType[] = await prisma.stock.findMany({
+      where: {
+        assetType: 'ETF',
+      },
     })
+    return etfs
   }
 }

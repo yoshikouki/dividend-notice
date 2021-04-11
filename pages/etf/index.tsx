@@ -5,22 +5,34 @@ import StockList from '../../components/StockList'
 import { Stock } from '../../lib/stocks'
 
 interface Props {
-  companies: any[]
+  etfs: any[]
 }
 
 const Etf = (props: Props) => {
   return (
     <DefaultLayout>
-      <StockList stocks={props.companies} />
+      <StockList stocks={props.etfs} />
     </DefaultLayout>
   )
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const allCompanies = await Stock.allOfNyEtfs(process.env.ALPHA_VANTAGE_API_KEY)
+  const allEtfs = await Stock.allOfNyEtfs()
+  const etfs = allEtfs.map((etf) => {
+    return {
+      id: etf.id,
+      status: etf.status,
+      symbol: etf.symbol,
+      name: etf.name,
+      exchange: etf.exchange,
+      assetType: etf.assetType,
+      ipoDate: etf.ipoDate.toString(),
+      delistingDate: etf.delistingDate ? etf.delistingDate.toString() : '',
+    }
+  })
   return {
     props: {
-      companies: allCompanies,
+      etfs: etfs,
     },
   }
 }
