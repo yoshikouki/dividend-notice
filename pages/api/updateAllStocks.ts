@@ -19,12 +19,12 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // 最新データと既存データで差分があるデータを抽出
   // 新規追加される情報もあるので、最新データを元に比較する
-  const diffStocks: ListingStatus[] = []
+  const diffStatuses: ListingStatus[] = []
   listingStatuses.forEach((ls) => {
     // シンボル名が既存データになかったら新規に作成する
     const stockIndex = allStocks.findIndex((stock) => ls.symbol === stock.symbol)
     if (stockIndex === -1) {
-      diffStocks.push(ls)
+      diffStatuses.push(ls)
     }
 
     // 計算数を減らすため処理対象を既存データから破壊的に抜き出す
@@ -39,15 +39,33 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
         ls.assetType === row.assetType
       )
     ) {
-      diffStocks.push(ls)
+      diffStatuses.push(ls)
     }
   })
 
   // 差分データをDBに登録
+  diffStatuses.forEach((ls) => {
+    const data = {
+      status: ls.status,
+      symbol: ls.symbol,
+      name: ls.name,
+      exchange: ls.exchange,
+      assetType: ls.assetType,
+      ipoDate: ls.ipoDate,
+      delistingDate: ls.delistingDate,
+    }
+    prisma.stock.upsert({
+      where: {
+        symbol: ls.symbol,
+      },
+      update: data,
+      create: data,
+    })
+  })
 
   const allStocksCount = await prisma.stock.count()
-  const updatedCount = diffStocks.length
-  const updatedRows = diffStocks
+  const updatedCount = diffStatuses.length
+  const updatedRows = diffStatuses
 
   const response: Data = {
     allStocksCount: allStocksCount,
