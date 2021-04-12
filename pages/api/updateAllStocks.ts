@@ -19,20 +19,27 @@ export default async function updateAllStocks(req: NextApiRequest, res: NextApiR
 
   // 最新データと既存データで差分があるデータを抽出
   // 新規追加される情報もあるので、最新データを元に比較する
-  const diffStocks = listingStatuses.map((ls, index) => {
-    const stockIndex = allStocks.findIndex(stock => ls.symbol === stock.symbol)
+  const diffStocks: ListingStatus[] = []
+  listingStatuses.forEach((ls) => {
+    // シンボル名が既存データになかったら新規に作成する
+    const stockIndex = allStocks.findIndex((stock) => ls.symbol === stock.symbol)
     if (stockIndex === -1) {
-      return ls
+      diffStocks.push(ls)
     }
 
+    // 計算数を減らすため処理対象を既存データから破壊的に抜き出す
     const row = allStocks.splice(stockIndex, 1)[0]
-    if ( ls.status === row.status
-      && ls.delistingDate === row.delistingDate
-      && ls.exchange === row.exchange
-      && ls.name === row.name
-      && ls.ipoDate === row.ipoDate
-      && ls.assetType === row.assetType) {
-      return ls
+    if (
+      !(
+        ls.status === row.status &&
+        ls.delistingDate === row.delistingDate &&
+        ls.exchange === row.exchange &&
+        ls.name === row.name &&
+        ls.ipoDate.valueOf() === row.ipoDate.valueOf() &&
+        ls.assetType === row.assetType
+      )
+    ) {
+      diffStocks.push(ls)
     }
   })
 

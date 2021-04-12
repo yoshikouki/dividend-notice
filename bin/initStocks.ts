@@ -1,4 +1,4 @@
-import { AlphaVantage, ListingStatus } from '../lib/api/alpha-vantage'
+import { AlphaVantage } from '../lib/api/alpha-vantage'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
