@@ -6,41 +6,33 @@ const prisma = new PrismaClient()
 const main = async () => {
   const stocksCount = await prisma.stock.count()
   if (stocksCount !== 0) {
-    console.error(`Stocks was initialized. Stocks has ${stocksCount} records`)
+    console.error(`[Error] Stocks was initialized. Stocks had ${stocksCount} records.`)
     return false
   }
 
   const alphaVantage = new AlphaVantage(process.env.ALPHA_VANTAGE_API_KEY)
-  const listingStatus = await alphaVantage.getListingStatus()
+  const listingStatuses = await alphaVantage.getListingStatus()
 
   // DBに登録
-  let createdCount = 0
-  Promise.all(
-    listingStatus.map(async (stock: ListingStatus) => {
-      const data = {
-        status: stock.status!,
-        symbol: stock.symbol!,
-        name: stock.name!,
-        exchange: stock.exchange!,
-        assetType: stock.assetType!,
-        ipoDate: stock.ipoDate!,
-        delistingDate: stock.delistingDate!,
-      }
-      await prisma.stock.create({ data: data })
-      createdCount++
-    }),
-  )
-    .then(async (values) => {
-      const allStocksCount = await prisma.stock.count()
-      console.log(`Create ${createdCount} Stocks. Now, All Stocks count is ${allStocksCount}.`)
-    })
-    .catch((err) => {
-      console.error(`Prisma create has Error. It created ${createdCount} records.`)
-      console.error(`message: ${err}`)
-      return false
-    })
+  const rows = listingStatuses.map((status) => {
+    const row = {
+      status: status.status!,
+      symbol: status.symbol!,
+      name: status.name!,
+      exchange: status.exchange!,
+      assetType: status.assetType!,
+      ipoDate: status.ipoDate!,
+      delistingDate: status.delistingDate!,
+    }
+    return row
+  })
+  await prisma.stock.createMany({
+    data: rows,
+    skipDuplicates: true,
+  })
 
-  console.log(`Initialize Stocks table. Create ${createdCount} records`)
+  const allCount = await prisma.stock.count()
+  console.log(`Initialize Stocks table. Stocks has ${allCount} records.`)
 }
 
 main()
