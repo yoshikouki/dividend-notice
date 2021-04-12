@@ -19,16 +19,7 @@ const Etf = (props: Props) => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const allEtfs = await Stock.allOfNyEtfs()
   const etfs = allEtfs.map((etf) => {
-    return {
-      id: etf.id,
-      status: etf.status,
-      symbol: etf.symbol,
-      name: etf.name,
-      exchange: etf.exchange,
-      assetType: etf.assetType,
-      ipoDate: etf.ipoDate.toString(),
-      delistingDate: etf.delistingDate ? etf.delistingDate.toString() : '',
-    }
+    return Stock.toJson(etf)
   })
   return {
     props: {
