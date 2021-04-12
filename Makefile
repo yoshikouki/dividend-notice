@@ -6,6 +6,7 @@ init:
 dev:
 	docker-compose up -d
 	$(MAKE) migrate
+	$(MAKE) db_init
 	docker-compose logs -f
 
 stop:
