@@ -62,25 +62,41 @@ export class AlphaVantage {
   }
 
   // Document : https://www.alphavantage.co/documentation/#listing-status
-  public async getListingStatus() {
+  public async getListingStatus(): Promise<ListingStatus[]> {
     const res = await this.fetchListingStatus()
     const csv = parser(res)
-    // CSV のヘッダー行をオブジェクトの key として使う
-    const objectKeys = csv.shift()
-    const objectList = this.convertToObject(csv, objectKeys)
+    // CSV のヘッダー行を key としてオブジェクトへの変換を行う
+    const objectKeys: ListingStatusColumn = csv.shift()
+    const objectList = csv.map((row: string[], rowNumber: number) => {
+      return this.toListingStatusObject(row, objectKeys, rowNumber)
+    })
     return objectList
   }
 
-  private convertToObject(valueArray: any[], keysArray: string[]) {
-    return valueArray.map((row, rowNumber) => {
-      const object: StringKeyObject = {
-        id: rowNumber + 1,
-      }
-      row.forEach((data: string, columnNumber: number) => {
-        object[keysArray[columnNumber]] = data
-      })
-      return object
-    })
+  public toListingStatusObject(values: string[], keys: ListingStatusColumn, index: number) {
+    const keysIndex = {
+      symbol: keys.indexOf('symbol'),
+      name: keys.indexOf('name'),
+      exchange: keys.indexOf('exchange'),
+      assetType: keys.indexOf('assetType'),
+      ipoDate: keys.indexOf('ipoDate'),
+      delistingDate: keys.indexOf('delistingDate'),
+      status: keys.indexOf('status'),
+    }
+
+    const ipoDate = new Date(values[keysIndex.ipoDate])
+    const delistingDate = values[keysIndex.delistingDate] === 'null' ? null : new Date(values[keysIndex.delistingDate])
+    const object: ListingStatus = {
+      id: index + 1,
+      symbol: values[keysIndex.symbol],
+      name: values[keysIndex.name],
+      exchange: values[keysIndex.exchange],
+      assetType: values[keysIndex.assetType],
+      ipoDate: ipoDate,
+      delistingDate: delistingDate,
+      status: values[keysIndex.status],
+    }
+    return object
   }
 }
 
@@ -137,13 +153,15 @@ export interface ListingStatusResponse {
   data: [string, string, string, string, string, string, string][]
 }
 
-interface ListingStatus {
+export interface ListingStatus {
   id: number
-  symbol?: string
-  name?: string
-  exchange?: string
-  assetType?: string
-  ipoDate?: string
-  delistingDate?: string
-  status?: string
+  symbol: string
+  name: string
+  exchange: string
+  assetType: string
+  ipoDate: Date
+  delistingDate: Date | null
+  status: string
 }
+
+export type ListingStatusColumn = ['symbol', 'name', 'exchange', 'assetType', 'ipoDate', 'delistingDate', 'status']

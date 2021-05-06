@@ -12,7 +12,8 @@
     "eslint": "eslint ./**/*.ts ./**/*.tsx",
     "lint": "run-s fmt:all eslint",
     "ci": "run-s lint test",
-    "migrate": "npx prisma migrate dev"
+    "migrate": "npx prisma migrate dev",
+    "db:init": "ts-node ./bin/initStocks.ts"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
